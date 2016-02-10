@@ -94,7 +94,7 @@ namespace MummyDispair
                 Exit();
 
             // TODO: Add your update logic here
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             for (int i = 0; i < Objects.Count; i++)
             {
