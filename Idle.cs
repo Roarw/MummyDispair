@@ -17,21 +17,15 @@ namespace MummyDispair
 
         public void Update(Direction direction, Vector2 translation)
         {
-            /*switch (direction)
+            switch (direction)
             {
-                case Direction.Front:
-                    animator.PlayAnimation(AnimationName.IdleFront);
-                    break;
-                case Direction.Back:
-                    animator.PlayAnimation(AnimationName.IdleBack);
-                    break;
                 case Direction.Right:
-                    animator.PlayAnimation(AnimationName.IdleRight);
+                    animator.PlayAnimation("IdleRight");
                     break;
                 case Direction.Left:
-                    animator.PlayAnimation(AnimationName.IdleLeft);
+                    animator.PlayAnimation("IdleLeft");
                     break;
-            }*/
+            }
         }
     }
 }

@@ -22,21 +22,15 @@ namespace MummyDispair
 
         public void Update(Direction direction, Vector2 translation)
         {
-            /* switch (direction)
+            switch (direction)
              {
-                 case Direction.Front:
-                     animator.PlayAnimation(AnimationName.WalkFront);
-                     break;
-                 case Direction.Back:
-                     animator.PlayAnimation(AnimationName.WalkBack);
-                     break;
                  case Direction.Right:
-                     animator.PlayAnimation(AnimationName.WalkRight);
+                     animator.PlayAnimation("WalkRight");
                      break;
                  case Direction.Left:
-                     animator.PlayAnimation(AnimationName.WalkLeft);
+                     animator.PlayAnimation("WalkLeft");
                      break;
-             }*/
+             }
 
             transform.Translate(translation * GameWorld.Instance.DeltaTime * speed);
         }
