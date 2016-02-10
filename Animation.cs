@@ -11,18 +11,35 @@ namespace MummyDispair
         private float fps;
         private Vector2 offset;
         private Rectangle[] rectangles;
+        private int frames;
 
-        public float getFps()
+        public float Fps
         {
-            return fps;
+            get
+            {
+                return fps;
+            }
         }
-        public Vector2 GetOffset()
+        public Vector2 Offset
         {
-            return offset;
+            get
+            {
+                return offset;
+            }
         }
-        public Rectangle[] GetRectangles()
+        public Rectangle[] Rectangles
         {
-            return rectangles;
+            get
+            {
+                return rectangles;
+            }
+        }
+        public int Frames
+        {
+            get
+            {
+                return frames;
+            }
         }
         public Animation(int frames, int yPos, int StartFrame, int width, int height, float fps, Vector2 offset)
         {
@@ -31,6 +48,8 @@ namespace MummyDispair
             this.offset = offset;
 
             this.fps = fps;
+
+            this.frames = frames;
 
             for (int i = 0; i < frames; i++)
             {

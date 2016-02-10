@@ -16,12 +16,28 @@ namespace MummyDispair
         private string nameOfAnimation;
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
+        public string NameOfAnimation
+        {
+            get
+            {
+                return nameOfAnimation;
+            }
+        }
+
+        public Dictionary<string, Animation> Animations
+        {
+            get
+            {
+                return animations;
+            }
+        }
+
         public Animator(GameObject gameObject): base(gameObject)
         {
             fps = 6;
              
-           
         }
+
         public void Update()
         {
             timeElapsed += GameWorld.Instance.DeltaTime;
@@ -44,11 +60,11 @@ namespace MummyDispair
         {
             if(nameOfAnimation != animationName)
             {
-                rectangles = animations[animationName].GetRectangles();
+                rectangles = animations[animationName].Rectangles;
                 spriteRenderer.Rectangle = rectangles[0];
-                spriteRenderer.Offset = animations[animationName].GetOffset();
+                spriteRenderer.Offset = animations[animationName].Offset;
                 nameOfAnimation = animationName;
-                fps = animations[animationName].getFps();
+                fps = animations[animationName].Fps;
                 timeElapsed = 0;
                 currentIndex = 0;
             }
