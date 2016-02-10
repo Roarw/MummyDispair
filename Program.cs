@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MummyDispair
+namespace MummyDispair2
 {
 #if WINDOWS || LINUX
     /// <summary>
