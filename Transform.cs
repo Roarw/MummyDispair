@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MummyDispair2
+namespace MummyDispair
 {
     class Transform : Component
     {

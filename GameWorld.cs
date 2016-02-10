@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace MummyDispair2
+namespace MummyDispair
 {
     /// <summary>
     /// This is the main type for your game.
