@@ -27,6 +27,14 @@ namespace MummyDispair
             set { isAlive = value; }
         }
 
+        public Transform Transformer
+        {
+            get
+            {
+                return transformer;
+            }
+        }
+
         public GameObject(Vector2 position)
         {
             this.components = new List<Component>();
@@ -43,8 +51,14 @@ namespace MummyDispair
 
         public Component GetComponent(string compName)
         {
-            Component component = components.Find(x => x.GetType().Name == compName);
-            return component;
+            Component comp = components.Find(x => x.GetType().Name == compName);
+
+            if (comp == null)
+            {
+                System.Diagnostics.Debug.WriteLine(compName + " returned null.");
+            }
+
+            return comp;
         }
 
         public void Draw(SpriteBatch spriteBatch)

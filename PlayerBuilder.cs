@@ -6,20 +6,20 @@ using System.Text;
 
 namespace MummyDispair
 {
-    class Builder : IBuilder
+    class PlayerBuilder : IBuilder
     {
         private GameObject gameObject;
 
-        public Builder()
+        public PlayerBuilder()
         {
         }
 
         public void BuildGameObject(Vector2 position)
         {
             this.gameObject = new GameObject(position);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "HeroSheet", 0, Vector2.Zero));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, "MummySpritesheet.png", 0, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
-            gameObject.AddComponent(new Player(gameObject, 100));
+            gameObject.AddComponent(new BlankSlade(gameObject, 15));
             Collider collider = new Collider(gameObject);
             collider.DoCollisionChecks = true;
             gameObject.AddComponent(collider);

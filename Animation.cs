@@ -12,6 +12,7 @@ namespace MummyDispair
         private Vector2 offset;
         private Rectangle[] rectangles;
         private int frames;
+        private bool repeat;
 
         public float Fps
         {
@@ -41,15 +42,21 @@ namespace MummyDispair
                 return frames;
             }
         }
-        public Animation(int frames, int yPos, int StartFrame, int width, int height, float fps, Vector2 offset)
+        public bool Repeat
         {
-            rectangles = new Rectangle[frames];
+            get
+            {
+                return repeat;
+            }
+        }
 
+        public Animation(int frames, int yPos, int StartFrame, int width, int height, float fps, Vector2 offset, bool repeat)
+        {
+            this.rectangles = new Rectangle[frames];
             this.offset = offset;
-
             this.fps = fps;
-
             this.frames = frames;
+            this.repeat = repeat;
 
             for (int i = 0; i < frames; i++)
             {

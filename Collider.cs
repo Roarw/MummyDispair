@@ -46,10 +46,9 @@ namespace MummyDispair
         {
             get
             {
-                Transform transform = (Transform)gameObject.GetComponent("Transform");
                 return new Rectangle(
-                    (int)(transform.Position.X + spriteRenderer.Offset.X),
-                    (int)(transform.Position.Y + spriteRenderer.Offset.Y),
+                    (int)(gameObject.Transformer.Position.X + spriteRenderer.Offset.X),
+                    (int)(gameObject.Transformer.Position.Y + spriteRenderer.Offset.Y),
                     spriteRenderer.Rectangle.Width, spriteRenderer.Rectangle.Height);
 
             }

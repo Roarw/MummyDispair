@@ -16,18 +16,22 @@ namespace MummyDispair
         private string nameOfSprite;
         private float layerDepth;
 
-        public SpriteRenderer(GameObject gameObject, string nameOfSprite, float layerDepth):  base (gameObject)
+        public SpriteRenderer(GameObject gameObject, string nameOfSprite, float layerDepth, Vector2 offset):  base (gameObject)
         {
+            this.Offset = offset;
             this.nameOfSprite = nameOfSprite;
             this.layerDepth = layerDepth;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-           spriteBatch.Draw(Sprite, gameObject.transformer.Position + Offset, Rectangle, Color.White);
+            spriteBatch.Draw(Sprite, gameObject.Transformer.Position + Offset, Rectangle, Color.White, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, layerDepth);
         }
+
         public void LoadContent(ContentManager content)
         {
             Sprite = content.Load<Texture2D>(nameOfSprite);
+            this.Rectangle = new Rectangle(0, 0, Sprite.Width, Sprite.Height);
         }
           
     }

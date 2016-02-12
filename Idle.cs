@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MummyDispair
 {
-    class Idle : IStrategy
+    class Idle : AnimationStrategy
     {
         private Animator animator;
 

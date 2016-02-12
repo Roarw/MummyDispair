@@ -14,7 +14,7 @@ namespace MummyDispair
         private float fps;
         private Rectangle[] rectangles;
         private string nameOfAnimation;
-        private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
+        private Dictionary<string, Animation> animations;
 
         public string NameOfAnimation
         {
@@ -34,39 +34,58 @@ namespace MummyDispair
 
         public Animator(GameObject gameObject): base(gameObject)
         {
-            fps = 6;
-             
+            this.spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
+            this.animations = new Dictionary<string, Animation>();
         }
 
         public void Update()
         {
             timeElapsed += GameWorld.Instance.DeltaTime;
+
             currentIndex = (int)(timeElapsed * fps);
+
             if (currentIndex > rectangles.Length - 1)
             {
-                gameObject.OnAnimationDone(nameOfAnimation);
-                timeElapsed = 0;
-                currentIndex = 0;
+                if (animations[nameOfAnimation].Repeat)
+                {
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                    gameObject.OnAnimationDone(nameOfAnimation);
+                }
+                else
+                {
+                    currentIndex = rectangles.Length - 1;
+                }
             }
 
             spriteRenderer.Rectangle = rectangles[currentIndex];
 
         }
+
         public void CreateAnimation(string name, Animation animation)
         {
             animations.Add(name, animation);
         }
-        public void PlayAnimation(string animationName)
+
+        public void PlayAnimation(string nameOfAnimation)
         {
-            if(nameOfAnimation != animationName)
+            //Checks if it’s a new animation
+            if (this.nameOfAnimation != nameOfAnimation)
             {
-                rectangles = animations[animationName].Rectangles;
-                spriteRenderer.Rectangle = rectangles[0];
-                spriteRenderer.Offset = animations[animationName].Offset;
-                nameOfAnimation = animationName;
-                fps = animations[animationName].Fps;
-                timeElapsed = 0;
-                currentIndex = 0;
+                //Sets the rectangles
+                this.rectangles = animations[nameOfAnimation].Rectangles;
+                this.spriteRenderer.Offset = animations[nameOfAnimation].Offset;
+                string oldNameOfAnimation = this.nameOfAnimation;
+                this.nameOfAnimation = nameOfAnimation;
+                this.fps = animations[nameOfAnimation].Fps;
+                
+                if (oldNameOfAnimation != null && 
+                    oldNameOfAnimation.Substring(0, 4) != oldNameOfAnimation.Substring(0, 4))
+                {
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                    this.spriteRenderer.Rectangle = rectangles[currentIndex];
+                }
             }
         }
     }

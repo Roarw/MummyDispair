@@ -10,6 +10,26 @@ namespace MummyDispair
     /// </summary>
     class GameWorld : Game
     {
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+
+        public List<Collider> Colliders { get; } = new List<Collider>();
+        public List<GameObject> Objects { get; } = new List<GameObject>();
+        
+        private float deltaTime;
+
+        public float DeltaTime
+        {
+            get
+            {
+                //WHY THE FUCK DOES DELTATIME RETURN 0????
+                //return deltaTime;
+
+                return 0.16666f;
+            }
+
+        }
+
         //Singleton.
         private static GameWorld instance;
 
@@ -23,24 +43,6 @@ namespace MummyDispair
                 }
                 return instance;
             }
-        }
-
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        public List<Collider> Colliders { get; } = new List<Collider>();
-        public List<GameObject> Objects { get; } = new List<GameObject>();
-
-
-        private float deltaTime;
-
-        public float DeltaTime
-        {
-            get
-            {
-                return deltaTime;
-            }
-
         }
 
         public GameWorld()
@@ -72,6 +74,10 @@ namespace MummyDispair
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            Director dir = new Director(new PlayerBuilder());
+            GameObject player = dir.Construct(Vector2.Zero);
+            player.LoadContent(Content);
+            Objects.Add(player);
         }
 
         /// <summary>
@@ -95,7 +101,7 @@ namespace MummyDispair
 
             // TODO: Add your update logic here
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            
             for (int i = 0; i < Objects.Count; i++)
             {
                 if (Objects[i].IsAlive)
@@ -106,11 +112,10 @@ namespace MummyDispair
                 {
                     Objects.Remove(Objects[i]);
 
-                    //Wait till Collider class is made.
-                    //if (Colliders.Contains((Collider)Objects[i].GetComponent("Collider")))
-                    //{
-                    //    Colliders.Remove((Collider)Objects[i].GetComponent("Collider"));
-                    //}
+                    if (Colliders.Contains((Collider)Objects[i].GetComponent("Collider")))
+                    {
+                        Colliders.Remove((Collider)Objects[i].GetComponent("Collider"));
+                    }
                 }
             }
 
