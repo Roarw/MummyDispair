@@ -57,6 +57,12 @@ namespace MummyDispair
         {
             // TODO: Add your initialization logic here
 
+            LevelCreator LevelCreate = new LevelCreator(Content);            
+            for (int i = 0; i <= LevelCreate.creatorObjects.Count - 1; i++)
+            {
+                Objects.Add(LevelCreate.creatorObjects[i]);
+            }
+
             base.Initialize();
         }
 
@@ -70,6 +76,9 @@ namespace MummyDispair
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
+
+
             Director dir = new Director(new PlayerBuilder());
             GameObject player = dir.Construct(Vector2.Zero);
             player.LoadContent(Content);

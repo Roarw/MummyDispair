@@ -42,6 +42,7 @@
     <Compile Include="Animator.cs" />
     <Compile Include="BlankSlade.cs" />
     <Compile Include="Jump.cs" />
+    <Compile Include="LevelCreator.cs" />
     <Compile Include="PlayerBuilder.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="Component.cs" />
@@ -63,6 +64,8 @@
     <Compile Include="SpriteRenderer.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Walk.cs" />
+    <Compile Include="Wall.cs" />
+    <Compile Include="WallBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -76,6 +79,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MummySpritesheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Wall Light.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Wall Slanted.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
