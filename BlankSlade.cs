@@ -115,14 +115,14 @@ namespace MummyDispair
 
         private void CreateAnimations()
         {
-            animator.CreateAnimation("WalkRight", new Animation(7, 660, 0, 166, 165, 0.85f, Vector2.Zero, true));
-            animator.CreateAnimation("WalkLeft", new Animation(7, 825, 0, 166, 165, 0.85f, Vector2.Zero, true));
+            animator.CreateAnimation("WalkRight", new Animation(7, 660, 0, 166, 165, 8.5f, Vector2.Zero, true));
+            animator.CreateAnimation("WalkLeft", new Animation(7, 825, 0, 166, 165, 8.5f, Vector2.Zero, true));
 
-            animator.CreateAnimation("JumpRight", new Animation(4, 330, 0, 166, 165, 1.1f, Vector2.Zero, false));
-            animator.CreateAnimation("JumpLeft", new Animation(4, 495, 0, 166, 165, 1.1f, Vector2.Zero, false));
+            animator.CreateAnimation("JumpRight", new Animation(4, 330, 0, 166, 165, 11f, Vector2.Zero, false));
+            animator.CreateAnimation("JumpLeft", new Animation(4, 495, 0, 166, 165, 11f, Vector2.Zero, false));
 
-            animator.CreateAnimation("IdleRight", new Animation(8, 0, 0, 166, 165, 0.4f, Vector2.Zero, true));
-            animator.CreateAnimation("IdleLeft", new Animation(8, 165, 0, 166, 165, 0.4f, Vector2.Zero, true));
+            animator.CreateAnimation("IdleRight", new Animation(8, 0, 0, 166, 165, 4f, Vector2.Zero, true));
+            animator.CreateAnimation("IdleLeft", new Animation(8, 165, 0, 166, 165, 4f, Vector2.Zero, true));
         }
 
         public void OnAnimationDone(string animationName)

@@ -15,19 +15,15 @@ namespace MummyDispair
 
         public List<Collider> Colliders { get; } = new List<Collider>();
         public List<GameObject> Objects { get; } = new List<GameObject>();
-        
+
         private float deltaTime;
 
         public float DeltaTime
         {
             get
             {
-                //WHY THE FUCK DOES DELTATIME RETURN 0????
-                //return deltaTime;
-
-                return 0.16666f;
+                return deltaTime;
             }
-
         }
 
         //Singleton.
@@ -45,7 +41,7 @@ namespace MummyDispair
             }
         }
 
-        public GameWorld()
+        private GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -102,6 +98,7 @@ namespace MummyDispair
             // TODO: Add your update logic here
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             
+
             for (int i = 0; i < Objects.Count; i++)
             {
                 if (Objects[i].IsAlive)
