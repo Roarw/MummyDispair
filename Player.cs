@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class BlankSlade : Component, ILoadable, IUpdateable, IAnimateable, ICollisionStay, ICollisionEnter, ICollisionExit
+    class Player : Component, ILoadable, IUpdateable, IAnimateable, ICollisionStay, ICollisionEnter, ICollisionExit
     {
         private AnimationStrategy strategy;
         private Direction direction;
@@ -26,7 +26,7 @@ namespace MummyDispair
             }
         }
 
-        public BlankSlade(GameObject gameObject, int speed) : base(gameObject)
+        public Player(GameObject gameObject, int speed) : base(gameObject)
         {
             this.speed = speed;
             direction = (Direction.Right);
@@ -135,6 +135,11 @@ namespace MummyDispair
 
         public void OnCollisionEnter(Collider other)
         {
+            if (other.GetGameObject.GetComponent("Wall") != null)
+            {
+                force = 0;
+                jumpReady = true;
+            }
         }
 
         public void OnCollisionExit(Collider other)

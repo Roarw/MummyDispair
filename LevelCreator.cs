@@ -23,7 +23,28 @@ namespace MummyDispair
 
         public void AddToList()
         {
-            GameObject wall = dir.Construct(Vector2.Zero);
+            GameObject wall = dir.Construct(new Vector2(0, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(100, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(200, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(300, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(400, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(500, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(600, 400));
+            wall.LoadContent(content);
+            CreatorObjects.Add(wall);
+            wall = dir.Construct(new Vector2(700, 400));
             wall.LoadContent(content);
             CreatorObjects.Add(wall);
         }

@@ -25,7 +25,7 @@ namespace MummyDispair
 
         private void CreateAnimations()
         {
-            animator.CreateAnimation("Standard", new Animation(1, 0, 0, 320, 320, 0, new Vector2(100, 100), true));
+            animator.CreateAnimation("Standard", new Animation(1, 0, 0, 100, 100, 0, Vector2.Zero, true));
         }
     }
 }

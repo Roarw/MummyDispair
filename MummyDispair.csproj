@@ -40,7 +40,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Animator.cs" />
-    <Compile Include="BlankSlade.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Jump.cs" />
     <Compile Include="LevelCreator.cs" />
     <Compile Include="PlayerBuilder.cs" />
