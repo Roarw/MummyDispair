@@ -14,23 +14,18 @@ namespace MummyDispair
 
         Director dir = new Director(new WallBuilder());
 
-        public List<GameObject> creatorObjects { get; set; } = new List<GameObject>();
+        public List<GameObject> CreatorObjects { get; set; } = new List<GameObject>();
 
         public LevelCreator(ContentManager content)
         {
             this.content = content;
         }
 
-        public void CreatorObjects()
-        {
-            
-        }
-
-        public void Director()
+        public void AddToList()
         {
             GameObject wall = dir.Construct(Vector2.Zero);
             wall.LoadContent(content);
-            creatorObjects.Add(wall);
+            CreatorObjects.Add(wall);
         }
 
     }

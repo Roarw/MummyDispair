@@ -57,10 +57,12 @@ namespace MummyDispair
         {
             // TODO: Add your initialization logic here
 
-            LevelCreator LevelCreate = new LevelCreator(Content);            
-            for (int i = 0; i <= LevelCreate.creatorObjects.Count - 1; i++)
+            LevelCreator LevelCreate = new LevelCreator(Content);
+            LevelCreate.AddToList();
+                       
+            for (int i = 0; i < LevelCreate.CreatorObjects.Count; i++)
             {
-                Objects.Add(LevelCreate.creatorObjects[i]);
+                Objects.Add(LevelCreate.CreatorObjects[i]);
             }
 
             base.Initialize();

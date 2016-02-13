@@ -18,6 +18,7 @@ namespace MummyDispair
         {
             this.gameObject = new GameObject(position);
             gameObject.AddComponent(new SpriteRenderer(gameObject, "Wall Light.png", 1f, Vector2.Zero));
+            gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddComponent(new Wall(gameObject));
             Collider collider = new Collider(gameObject);
             collider.DoCollisionChecks = false;
