@@ -69,12 +69,7 @@ namespace MummyDispair
             }
 
             //Check for jump.
-            if (gameObject.Transformer.Position.Y > 300 && !jumpReady) 
-            {
-                force = 0;
-                jumpReady = true;
-            }
-            else if (!jumpReady)
+            if (!jumpReady)
             {
                 force += 0.13f;
             }
@@ -127,10 +122,12 @@ namespace MummyDispair
 
         public void OnAnimationDone(string animationName)
         {
+
         }
 
         public void OnCollisionStay(Collider other)
         {
+            
         }
 
         public void OnCollisionEnter(Collider other)
@@ -144,6 +141,7 @@ namespace MummyDispair
 
         public void OnCollisionExit(Collider other)
         {
+
         }
     }
 }

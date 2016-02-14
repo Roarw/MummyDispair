@@ -9,15 +9,17 @@ namespace MummyDispair
     class WallBuilder : IBuilder
     {
         private GameObject gameObject;
+        private string nameOfSprite;
 
-        public WallBuilder()
+        public WallBuilder(string nameOfSprite)
         {
+            this.nameOfSprite = nameOfSprite;
         }
 
         public void BuildGameObject(Vector2 position)
         {
             this.gameObject = new GameObject(position);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "Wall Light.png", 1f, Vector2.Zero));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, nameOfSprite, 1f, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddComponent(new Wall(gameObject));
             Collider collider = new Collider(gameObject);
