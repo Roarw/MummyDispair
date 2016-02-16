@@ -13,10 +13,6 @@ namespace MummyDispair
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Camera camera = new Camera();
-
-
-
         public List<Collider> Colliders { get; } = new List<Collider>();
         public List<GameObject> Objects { get; } = new List<GameObject>();
 
@@ -60,7 +56,6 @@ namespace MummyDispair
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
 
             LevelCreator LevelCreate = new LevelCreator(Content);
             LevelCreate.AddToList();
@@ -69,7 +64,6 @@ namespace MummyDispair
             {
                 Objects.Add(LevelCreate.CreatorObjects[i]);
             }
-            
 
             base.Initialize();
         }
@@ -143,9 +137,9 @@ namespace MummyDispair
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-             
+
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend,null,null,null,null,camera.cameraMatrix);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             foreach (GameObject go in Objects)
             {

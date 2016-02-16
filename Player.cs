@@ -30,7 +30,7 @@ namespace MummyDispair
         {
             this.speed = speed;
             direction = (Direction.Right);
-        }        
+        }
 
         public void LoadContent(ContentManager content)
         {
