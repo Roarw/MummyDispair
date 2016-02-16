@@ -91,6 +91,9 @@
     <Content Include="Content\PoisonForegroundSprite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\ScorpionSpritesheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\WallBasic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
