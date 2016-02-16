@@ -37,6 +37,8 @@ namespace MummyDispair
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(700, 300));
 
             RunBuilder(new FemaleBuilder(), new Vector2(0, 257));
+
+            RunBuilder(new ScorpionBuilder(), new Vector2(0, 20));
         }
 
         private void RunBuilder(IBuilder build, Vector2 position)

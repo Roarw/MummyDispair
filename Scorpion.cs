@@ -12,12 +12,14 @@ namespace MummyDispair
         private Animator animator;
         private Vector2 coord1;
         private Vector2 coord2;
+        private Direction direction;
+        private AnimationStrategy strategy;
 
         public Scorpion(GameObject gameObject, Vector2 coord1, Vector2 coord2) : base(gameObject)
         {
             this.coord1 = coord1;
             this.coord2 = coord2;
-
+            direction = (Direction.Right);
         }
 
         public void LoadContent(ContentManager content)
@@ -25,7 +27,10 @@ namespace MummyDispair
             this.animator = (Animator)gameObject.GetComponent("Animator");
 
             CreateAnimations();
-            animator.PlayAnimation("Standard");
+            animator.PlayAnimation("WalkRight");
+
+            strategy = new Walk(animator, gameObject.Transformer, 100);
+            strategy.Update(direction, Vector2.Zero);
         }
 
         private void CreateAnimations()
