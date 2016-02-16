@@ -12,7 +12,7 @@ namespace MummyDispair
         Released,
         Down
     }
-
+    
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -20,6 +20,11 @@ namespace MummyDispair
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        /// <summary>
+        /// Credits: http:// www.alecjacobsen.com/weblog/?p=539.
+        /// This menu has been made with inspiration from the link above.
+        /// </summary>
 
         //Only menu related
         private Texture2D backgroundTexture;
