@@ -20,6 +20,7 @@ namespace MummyDispair
         public Transform transformer;
 
         private bool isAlive;
+        private TypeComponent typeComp;
 
         public bool IsAlive
         {
@@ -35,13 +36,28 @@ namespace MummyDispair
             }
         }
 
+        public TypeComponent TypeComponent
+        {
+            get
+            {
+                return typeComp;
+            }
+        }
+
         public GameObject(Vector2 position)
         {
             this.components = new List<Component>();
+
             this.transformer = new Transform(this, position);
             components.Add(transformer);
-
+            
             isAlive = true;
+        }
+
+        public void AddTypeComponent(TypeComponent typeComp)
+        {
+            this.typeComp = typeComp;
+            AddComponent(typeComp);
         }
 
         public void AddComponent(Component comp)

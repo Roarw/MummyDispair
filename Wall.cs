@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace MummyDispair
 {
-    class Wall : Component, ILoadable
+    class Wall : TypeComponent, ILoadable
     {
         private Animator animator;
 

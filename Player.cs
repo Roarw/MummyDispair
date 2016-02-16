@@ -8,23 +8,16 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class Player : Component, ILoadable, IUpdateable, IAnimateable, ICollisionStay, ICollisionEnter, ICollisionExit
+    class Player : TypeComponent, ILoadable, IUpdateable, IAnimateable, ICollisionStay, ICollisionEnter, ICollisionExit
     {
         private AnimationStrategy strategy;
         private Direction direction;
         private float speed;
         private bool walking;
         private Animator animator;
+        private Collider collider;
         private float force;
         private bool jumpReady;
-
-        public Animator Animator
-        {
-            get
-            {
-                return animator;
-            }
-        }
 
         public Player(GameObject gameObject, int speed) : base(gameObject)
         {
@@ -35,6 +28,7 @@ namespace MummyDispair
         public void LoadContent(ContentManager content)
         {
             this.animator = (Animator)gameObject.GetComponent("Animator");
+            this.collider = (Collider)gameObject.GetComponent("Collider");
 
             CreateAnimations();
             strategy = new Idle(animator);
@@ -127,16 +121,16 @@ namespace MummyDispair
 
         public void OnCollisionStay(Collider other)
         {
-            
+            if (other.GetGameObject.TypeComponent is Wall)
+            {
+                jumpReady = true;
+                force = 0f;
+            }
         }
 
         public void OnCollisionEnter(Collider other)
         {
-            if (other.GetGameObject.GetComponent("Wall") != null)
-            {
-                force = 0;
-                jumpReady = true;
-            }
+            
         }
 
         public void OnCollisionExit(Collider other)

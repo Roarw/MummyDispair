@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class Animator: Component, IUpdateable
+    class Animator: Component, IUpdateable, ILoadable
     {
         private SpriteRenderer spriteRenderer;
         private int currentIndex;
@@ -34,8 +35,12 @@ namespace MummyDispair
 
         public Animator(GameObject gameObject): base(gameObject)
         {
-            this.spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
             this.animations = new Dictionary<string, Animation>();
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            this.spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
         }
 
         public void Update()

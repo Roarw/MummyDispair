@@ -18,10 +18,10 @@ namespace MummyDispair
 
         public void BuildGameObject(Vector2 position)
         {
-            this.gameObject = new GameObject(position);
+            gameObject = new GameObject(position);
             gameObject.AddComponent(new SpriteRenderer(gameObject, nameOfSprite, 1f, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
-            gameObject.AddComponent(new Wall(gameObject));
+            gameObject.AddTypeComponent(new Wall(gameObject));
             Collider collider = new Collider(gameObject);
             collider.DoCollisionChecks = false;
             gameObject.AddComponent(collider);

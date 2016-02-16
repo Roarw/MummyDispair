@@ -57,13 +57,13 @@ namespace MummyDispair
         public Collider(GameObject gameObject) : base(gameObject)
         {
             GameWorld.Instance.Colliders.Add(this);
-            this.animator = (Animator)gameObject.GetComponent("Animator");
             this.otherColliders = new List<Collider>();
         }
 
         public void LoadContent(ContentManager content)
         {
             spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
+            animator = (Animator)gameObject.GetComponent("Animator");
             texture = content.Load<Texture2D>("CollisionTexture");
 
             pixels = new Lazy<Dictionary<string, Color[][]>>(() => CachePixels());
@@ -71,34 +71,62 @@ namespace MummyDispair
 
         public void Update()
         {
-            CheckCollision();
+            if (doCollisionChecks)
+            {
+                CheckCollision();
+            }
         }
+
+        //public Rectangle GetSideRectangle(string side)
+        //{
+        //    if (side == "Top")
+        //    {
+        //        return new Rectangle(CollisionBox.Left, 
+        //            CollisionBox.Top, CollisionBox.Right, 1);
+        //    }
+        //    else if (side == "Bottom")
+        //    {
+        //        return new Rectangle(CollisionBox.Left,
+        //            1, CollisionBox.Right, CollisionBox.Bottom);
+        //    }
+        //    else if (side == "Left")
+        //    {
+        //        return new Rectangle(CollisionBox.Left,
+        //            CollisionBox.Top, 1, CollisionBox.Bottom);
+        //    }
+        //    else if (side == "Right")
+        //    {
+        //        return new Rectangle(1, CollisionBox.Top, 
+        //            CollisionBox.Right, CollisionBox.Bottom);
+        //    }
+        //    else
+        //    {
+        //        return CollisionBox;
+        //    }
+        //}
 
         private void CheckCollision()
         {
-            if (doCollisionChecks)
+            foreach (Collider other in GameWorld.Instance.Colliders)
             {
-                foreach (Collider other in GameWorld.Instance.Colliders)
+                if (other != this)
                 {
-                    if (other != this)
+                    if (CollisionBox.Intersects(other.CollisionBox) && CheckPixelCollision(other))
                     {
-                        if (CollisionBox.Intersects(other.CollisionBox) && CheckPixelCollision(other))
-                        {
-                            gameObject.OnCollisionStay(other);
+                        gameObject.OnCollisionStay(other);
 
-                            if (!otherColliders.Contains(other))
-                            {
-                                otherColliders.Add(other);
-                                gameObject.OnCollisionEnter(other);
-                            }
-                        }
-                        else
+                        if (!otherColliders.Contains(other))
                         {
-                            if (otherColliders.Contains(other))
-                            {
-                                gameObject.OnCollisionExit(other);
-                                otherColliders.Remove(other);
-                            }
+                            otherColliders.Add(other);
+                            gameObject.OnCollisionEnter(other);
+                        }
+                    }
+                    else
+                    {
+                        if (otherColliders.Contains(other))
+                        {
+                            gameObject.OnCollisionExit(other);
+                            otherColliders.Remove(other);
                         }
                     }
                 }
@@ -112,6 +140,7 @@ namespace MummyDispair
             int bottom = Math.Min(CollisionBox.Bottom, other.CollisionBox.Bottom);
             int left = Math.Max(CollisionBox.Left, other.CollisionBox.Left);
             int right = Math.Min(CollisionBox.Right, other.CollisionBox.Right);
+
             for (int y = top; y < bottom; y++)
             {
                 for (int x = left; x < right; x++)
@@ -130,7 +159,6 @@ namespace MummyDispair
                             return true;
                         }
                     }
-
                 }
             }
             return false;
