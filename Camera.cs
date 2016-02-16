@@ -8,38 +8,29 @@ namespace MummyDispair
 {
     class Camera
     {
-        public Matrix cameraMatrix;
-        private Vector2 playerPosition;
+        private Matrix cameraMatrix;
+        private GameObject player;
         private Vector2 halfScreen;
-        Player player;
 
-
-
-        public Camera()
-        {
-
-            halfScreen = new Vector2(600 * 0.5f, 0 * 0.5f);
-            UpdateCameraMatrix();
-        }
-
-        public Vector2 Pos
+        public Matrix CameraMatrix
         {
             get
             {
-                return playerPosition;
-            }
-
-            set
-            {
-                playerPosition = player.GetGameObject.transformer.Position;
-                UpdateCameraMatrix();
+                return cameraMatrix;
             }
         }
 
-        private void UpdateCameraMatrix()
+        public Camera(GameObject player)
         {
+            this.player = player;
+            halfScreen = new Vector2(600 * 0.5f, 300 * 0.5f);
+            UpdateCameraMatrix();
+        }
 
-            cameraMatrix = Matrix.CreateTranslation(halfScreen.X - playerPosition.X, halfScreen.Y - playerPosition.Y, 0.0f);
+        public void UpdateCameraMatrix()
+        {
+            cameraMatrix = Matrix.CreateTranslation(halfScreen.X - player.Transformer.Position.X, 
+                halfScreen.Y - player.Transformer.Position.Y, 0.0f);
         }
     }
 }

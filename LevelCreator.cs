@@ -32,7 +32,7 @@ namespace MummyDispair
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(600, 400));
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(700, 400));
 
-            RunBuilder(new WallBuilder("WallRightSlanted.png"), new Vector2(500, 300));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(500, 300));
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(600, 300));
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(700, 300));
 

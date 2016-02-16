@@ -13,7 +13,7 @@ namespace MummyDispair
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Camera camera = new Camera();
+        Camera camera;
 
         public List<Collider> Colliders { get; } = new List<Collider>();
         public List<GameObject> Objects { get; } = new List<GameObject>();
@@ -80,13 +80,12 @@ namespace MummyDispair
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            
-
-
             Director dir = new Director(new PlayerBuilder());
             GameObject player = dir.Construct(Vector2.Zero);
             player.LoadContent(Content);
             Objects.Add(player);
+
+            camera = new Camera(player);
         }
 
         /// <summary>
@@ -110,7 +109,8 @@ namespace MummyDispair
 
             // TODO: Add your update logic here
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
+
+            camera.UpdateCameraMatrix();
 
             for (int i = 0; i < Objects.Count; i++)
             {
@@ -141,7 +141,7 @@ namespace MummyDispair
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.cameraMatrix);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.CameraMatrix);
 
             foreach (GameObject go in Objects)
             {
