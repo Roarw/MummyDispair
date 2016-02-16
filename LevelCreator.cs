@@ -23,26 +23,28 @@ namespace MummyDispair
 
         public void AddToList()
         {
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(0, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(100, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(200, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(300, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(400, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(500, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(600, 400));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(700, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(0, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(100, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(200, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(300, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(400, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(500, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(600, 400));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(700, 400));
 
-            AddWall(new WallBuilder("WallRightSlanted.png"), new Vector2(500, 300));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(600, 300));
-            AddWall(new WallBuilder("WallBasic.png"), new Vector2(700, 300));
+            RunBuilder(new WallBuilder("WallRightSlanted.png"), new Vector2(500, 300));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(600, 300));
+            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(700, 300));
+
+            RunBuilder(new FemaleBuilder(), new Vector2(0, 257));
         }
 
-        private void AddWall(IBuilder build, Vector2 position)
+        private void RunBuilder(IBuilder build, Vector2 position)
         {
             dir = new Director(build);
-            GameObject wall = dir.Construct(position);
-            wall.LoadContent(content);
-            CreatorObjects.Add(wall);
+            GameObject gameObject = dir.Construct(position);
+            gameObject.LoadContent(content);
+            CreatorObjects.Add(gameObject);
         }
 
     }
