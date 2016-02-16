@@ -21,8 +21,10 @@ namespace MummyDispair
             this.content = content;
         }
 
-        public void AddToList()
+        public GameObject AddToList()
         {
+            GameObject player = RunBuilder(new PlayerBuilder(), Vector2.Zero);
+
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(0, 400));
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(100, 400));
             RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(200, 400));
@@ -39,14 +41,19 @@ namespace MummyDispair
             RunBuilder(new FemaleBuilder(), new Vector2(0, 257));
 
             RunBuilder(new ScorpionBuilder(), new Vector2(0, 20));
+
+
+            return player;
         }
 
-        private void RunBuilder(IBuilder build, Vector2 position)
+        private GameObject RunBuilder(IBuilder build, Vector2 position)
         {
             dir = new Director(build);
             GameObject gameObject = dir.Construct(position);
             gameObject.LoadContent(content);
             CreatorObjects.Add(gameObject);
+
+            return gameObject;
         }
 
     }

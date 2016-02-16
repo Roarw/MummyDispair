@@ -41,6 +41,8 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Animator.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="MenuCamera.cs" />
+    <Compile Include="PlayerCamera.cs" />
     <Compile Include="Female.cs" />
     <Compile Include="FemaleBuilder.cs" />
     <Compile Include="Player.cs" />
@@ -81,6 +83,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textures\background image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\ButtonHelp1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\ButtonPlay1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\ButtonQuit1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\CollisionTexture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
