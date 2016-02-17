@@ -19,6 +19,7 @@ namespace MummyDispair
             gameObject = new GameObject(position);
             gameObject.AddComponent(new SpriteRenderer(gameObject, "MummySpritesheet.png", 0, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
+            gameObject.AddComponent(new HealthBar(gameObject, 5));
             gameObject.AddTypeComponent(new Player(gameObject, 145));
             Collider collider = new Collider(gameObject);
             collider.DoCollisionChecks = true;
