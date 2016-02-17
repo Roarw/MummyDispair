@@ -16,6 +16,10 @@ namespace MummyDispair
 
         public List<GameObject> CreatorObjects { get; set; } = new List<GameObject>();
 
+        private int previous = int.MinValue;
+        private int next = int.MinValue;
+        private int yCoord;
+
         public LevelCreator(ContentManager content)
         {
             this.content = content;
@@ -66,15 +70,29 @@ namespace MummyDispair
 
         private void WallRange(int x1, int x2, int y)
         {
+
             for (int x = x1; x <= x2; x++)
             {
                 WallAt(x, y);
             }
         }
 
+        private void DankWallRange(int x1, int x2, int y)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                DankWallAt(x, y);
+            }
+        }
+
         private void WallAt(int x, int y)
         {
             RunBuilder(new WallBuilder("static/WallBasic.png"), new Vector2(x * 100, y * 100));
+        }
+
+        private void DankWallAt(int x, int y)
+        {
+            RunBuilder(new WallBuilder("static/WallDank.png"), new Vector2(x * 100, y * 100));
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)
