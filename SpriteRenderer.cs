@@ -21,6 +21,7 @@ namespace MummyDispair
             this.Offset = offset;
             this.nameOfSprite = nameOfSprite;
             this.layerDepth = layerDepth;
+            this.Rectangle = new Rectangle(0, 0, 0, 0);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -31,7 +32,6 @@ namespace MummyDispair
         public void LoadContent(ContentManager content)
         {
             Sprite = content.Load<Texture2D>(nameOfSprite);
-            this.Rectangle = new Rectangle(0, 0, Sprite.Width, Sprite.Height);
         }
           
     }

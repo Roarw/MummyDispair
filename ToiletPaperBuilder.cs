@@ -30,7 +30,5 @@ namespace MummyDispair
         {
             return gameObject;
         }
-
-
     }
 }
