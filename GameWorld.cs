@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -18,8 +19,10 @@ namespace MummyDispair
     /// </summary>
     class GameWorld : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        
+        private SoundEffectInstance musicEngine;
 
         /// <summary>
         /// Credits: http:// www.alecjacobsen.com/weblog/?p=539.
@@ -98,6 +101,12 @@ namespace MummyDispair
         /// </summary>
         protected override void Initialize()
         {
+            //SoundEffect effect = Content.Load<SoundEffectInstance>("");
+            //musicEngine = effect.CreateInstance();
+            //musicEngine.IsLooped = true;
+            //musicEngine.Volume = 0.5f;
+            //musicEngine.Play();
+
             if (!gameStarted)
             {
                 // TODO: Add your initialization logic here

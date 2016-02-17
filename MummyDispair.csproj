@@ -96,25 +96,25 @@
     <Content Include="Content\images\ButtonQuit1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\CollisionTexture.png">
+    <Content Include="Content\Textures\CollisionTexture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\FemaleSpritesheet.png">
+    <Content Include="Content\sheets\FemaleSpritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MummySpritesheet.png">
+    <Content Include="Content\sheets\MummySpritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\PoisonForegroundSprite.png">
+    <Content Include="Content\static\PoisonForegroundSprite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\ScorpionSpritesheet.png">
+    <Content Include="Content\sheets\ScorpionSpritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\WallBasic.png">
+    <Content Include="Content\static\WallBasic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\WallPoison.png">
+    <Content Include="Content\static\WallPoison.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

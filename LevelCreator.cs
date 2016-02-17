@@ -74,7 +74,7 @@ namespace MummyDispair
 
         private void WallAt(int x, int y)
         {
-            RunBuilder(new WallBuilder("WallBasic.png"), new Vector2(x * 100, y * 100));
+            RunBuilder(new WallBuilder("static/WallBasic.png"), new Vector2(x * 100, y * 100));
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)

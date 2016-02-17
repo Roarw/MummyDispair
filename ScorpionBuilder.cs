@@ -17,7 +17,7 @@ namespace MummyDispair
         public void BuildGameObject(Vector2 position)
         {
             gameObject = new GameObject(position);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "ScorpionSpritesheet.png", 0, Vector2.Zero));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/ScorpionSpritesheet.png", 0, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddTypeComponent(new Scorpion(gameObject, Vector2.Zero, Vector2.Zero));
             Collider collider = new Collider(gameObject);

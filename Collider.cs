@@ -64,7 +64,7 @@ namespace MummyDispair
         {
             spriteRenderer = (SpriteRenderer)gameObject.GetComponent("SpriteRenderer");
             animator = (Animator)gameObject.GetComponent("Animator");
-            texture = content.Load<Texture2D>("CollisionTexture");
+            texture = content.Load<Texture2D>("Textures/CollisionTexture");
 
             pixels = new Lazy<Dictionary<string, Color[][]>>(() => CachePixels());
         }
