@@ -27,10 +27,10 @@ namespace MummyDispair
         public void BuildGameObject(Vector2 position)
         {
             gameObject = new GameObject(position);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/ScorpionSpritesheet.png", 0, Vector2.Zero));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/ScorpionSpritesheet.png", 0f, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddTypeComponent(new Scorpion(gameObject, position, coord2));
-            Collider collider = new Collider(gameObject);
+            Collider collider = new Collider(gameObject, true);
             collider.DoCollisionChecks = false;
             gameObject.AddComponent(collider);
 

@@ -70,6 +70,10 @@
     <Compile Include="Scorpion.cs" />
     <Compile Include="ScorpionBuilder.cs" />
     <Compile Include="SpriteRenderer.cs" />
+    <Compile Include="StaticObject.cs" />
+    <Compile Include="StaticObjectBuilder.cs" />
+    <Compile Include="ToiletPaper.cs" />
+    <Compile Include="ToiletPaperBuilder.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="TypeComponent.cs" />
     <Compile Include="Walk.cs" />
@@ -84,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\static\ToiletRoll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\static\WallDank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

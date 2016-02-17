@@ -16,6 +16,10 @@ namespace MummyDispair
 
         public List<GameObject> CreatorObjects { get; set; } = new List<GameObject>();
 
+        private int previous;
+        private int next;
+        private int yCoord = -1;
+
         public LevelCreator(ContentManager content)
         {
             this.content = content;
@@ -61,20 +65,47 @@ namespace MummyDispair
 
             RunBuilder(new ScorpionBuilder(new Vector2 (-1500, 2650)), new Vector2(-1850, 2650));
 
+            RunBuilder(new ToiletPaperBuilder(), new Vector2(-2400, 2400));
+
             return player;
         }
 
         private void WallRange(int x1, int x2, int y)
         {
+            next = x1;
+            if (yCoord == y)
+            {
+                DankWallRange(previous + 1, next - 1, y);
+            }
+            else
+            {
+                yCoord = y;
+            }
+            previous = x2;
+
+
             for (int x = x1; x <= x2; x++)
             {
                 WallAt(x, y);
             }
         }
 
+        private void DankWallRange(int x1, int x2, int y)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                DankWallAt(x, y);
+            }
+        }
+
         private void WallAt(int x, int y)
         {
             RunBuilder(new WallBuilder("static/WallBasic.png"), new Vector2(x * 100, y * 100));
+        }
+
+        private void DankWallAt(int x, int y)
+        {
+            RunBuilder(new StaticObjectBuilder("static/WallDank.png", 1f), new Vector2(x * 100, y * 100));
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)
