@@ -18,7 +18,7 @@ namespace MummyDispair
 
         private int previous = int.MinValue;
         private int next = int.MinValue;
-        private int yCoord;
+        private int yCoord = int.MinValue;
 
         public LevelCreator(ContentManager content)
         {
@@ -70,6 +70,12 @@ namespace MummyDispair
 
         private void WallRange(int x1, int x2, int y)
         {
+            //x1 = next;
+            //if (yCoord == y)
+            //{
+            //    DankWallRange(previous + 1, next - 1, y);
+            //}
+            
 
             for (int x = x1; x <= x2; x++)
             {
