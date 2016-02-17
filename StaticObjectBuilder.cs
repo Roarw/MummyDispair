@@ -6,24 +6,24 @@ using System.Text;
 
 namespace MummyDispair
 {
-    class ScorpionBuilder : IBuilder
+    class StaticObjectBuilder : IBuilder
     {
         private GameObject gameObject;
+        private string nameOfSprite;
+        private float layerDepth;
 
-        public ScorpionBuilder()
+        public StaticObjectBuilder(string nameOfSprite, float layerDepth)
         {
+            this.nameOfSprite = nameOfSprite;
+            this.layerDepth = layerDepth;
         }
 
         public void BuildGameObject(Vector2 position)
         {
             gameObject = new GameObject(position);
-            gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/ScorpionSpritesheet.png", 0f, Vector2.Zero));
+            gameObject.AddComponent(new SpriteRenderer(gameObject, nameOfSprite, layerDepth, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
-            gameObject.AddTypeComponent(new Scorpion(gameObject, Vector2.Zero, Vector2.Zero));
-            Collider collider = new Collider(gameObject, true);
-            collider.DoCollisionChecks = false;
-            gameObject.AddComponent(collider);
-
+            gameObject.AddTypeComponent(new StaticObject(gameObject));
         }
 
         public GameObject GetResult()

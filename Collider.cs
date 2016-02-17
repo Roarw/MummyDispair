@@ -13,11 +13,12 @@ namespace MummyDispair
         private SpriteRenderer spriteRenderer;
         private Texture2D texture;
         private bool doCollisionChecks;
+        private bool pixelCollision;
         private List<Collider> otherColliders;
         private Animator animator;
         private Lazy<Dictionary<string, Color[][]>> pixels;
 
-        public Color[] CurrentPixels
+        private Color[] CurrentPixels
         {
             get
             {
@@ -42,6 +43,14 @@ namespace MummyDispair
             }
         }
 
+        public bool PixelCollision
+        {
+            get
+            {
+                return pixelCollision;
+            }
+        }
+
         public Rectangle CollisionBox
         {
             get
@@ -54,10 +63,12 @@ namespace MummyDispair
             }
         }
 
-        public Collider(GameObject gameObject) : base(gameObject)
+        public Collider(GameObject gameObject, bool pixelCollision) : base(gameObject)
         {
             GameWorld.Instance.Colliders.Add(this);
             this.otherColliders = new List<Collider>();
+
+            this.pixelCollision = pixelCollision;
         }
 
         public void LoadContent(ContentManager content)
@@ -66,7 +77,10 @@ namespace MummyDispair
             animator = (Animator)gameObject.GetComponent("Animator");
             texture = content.Load<Texture2D>("Textures/CollisionTexture");
 
-            pixels = new Lazy<Dictionary<string, Color[][]>>(() => CachePixels());
+            if (pixelCollision)
+            {
+                pixels = new Lazy<Dictionary<string, Color[][]>>(() => CachePixels());
+            }
         }
 
         public void Update()
@@ -135,33 +149,39 @@ namespace MummyDispair
 
         private bool CheckPixelCollision(Collider other)
         {
-            // Find the bounds of the rectangle intersection
-            int top = Math.Max(CollisionBox.Top, other.CollisionBox.Top);
-            int bottom = Math.Min(CollisionBox.Bottom, other.CollisionBox.Bottom);
-            int left = Math.Max(CollisionBox.Left, other.CollisionBox.Left);
-            int right = Math.Min(CollisionBox.Right, other.CollisionBox.Right);
-
-            for (int y = top; y < bottom; y++)
+            if (other.PixelCollision)
             {
-                for (int x = left; x < right; x++)
+                // Find the bounds of the rectangle intersection
+                int top = Math.Max(CollisionBox.Top, other.CollisionBox.Top);
+                int bottom = Math.Min(CollisionBox.Bottom, other.CollisionBox.Bottom);
+                int left = Math.Max(CollisionBox.Left, other.CollisionBox.Left);
+                int right = Math.Min(CollisionBox.Right, other.CollisionBox.Right);
+
+                for (int y = top; y < bottom; y++)
                 {
-                    int firstIndex = (x - CollisionBox.Left) + (y - CollisionBox.Top) * CollisionBox.Width;
-                    int secondIndex = (x - other.CollisionBox.Left) + (y - other.CollisionBox.Top) * other.CollisionBox.Width;
-                    //Get the color of both pixels at this point
-                    Color colorA = CurrentPixels[firstIndex];
-                    if (secondIndex < other.CurrentPixels.Count())
+                    for (int x = left; x < right; x++)
                     {
-                        Color colorB = other.CurrentPixels[secondIndex];
-                        // If both pixels are not completely transparent
-                        if (colorA.A != 0 && colorB.A != 0)
+                        int firstIndex = (x - CollisionBox.Left) + (y - CollisionBox.Top) * CollisionBox.Width;
+                        int secondIndex = (x - other.CollisionBox.Left) + (y - other.CollisionBox.Top) * other.CollisionBox.Width;
+                        //Get the color of both pixels at this point
+                        Color colorA = CurrentPixels[firstIndex];
+                        if (secondIndex < other.CurrentPixels.Count())
                         {
-                            //Then an intersection has been found
-                            return true;
+                            Color colorB = other.CurrentPixels[secondIndex];
+                            // If both pixels are not completely transparent
+                            if (colorA.A != 0 && colorB.A != 0)
+                            {
+                                //Then an intersection has been found
+                                return true;
+                            }
                         }
                     }
                 }
+                return false;
             }
-            return false;
+
+
+            return true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -171,10 +191,10 @@ namespace MummyDispair
             Rectangle rightLine = new Rectangle(CollisionBox.X + CollisionBox.Width, CollisionBox.Y, 1, CollisionBox.Height);
             Rectangle leftLine = new Rectangle(CollisionBox.X, CollisionBox.Y, 1, CollisionBox.Height);
 
-            spriteBatch.Draw(texture, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            spriteBatch.Draw(texture, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            spriteBatch.Draw(texture, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            spriteBatch.Draw(texture, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(texture, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         private Dictionary<string, Color[][]> CachePixels()
@@ -197,7 +217,7 @@ namespace MummyDispair
                 tmpPixels.Add(pair.Key, colors);
             }
 
-            return tmpPixels;
+        return tmpPixels;
         }
     }
 }

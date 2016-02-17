@@ -70,6 +70,8 @@
     <Compile Include="Scorpion.cs" />
     <Compile Include="ScorpionBuilder.cs" />
     <Compile Include="SpriteRenderer.cs" />
+    <Compile Include="StaticObject.cs" />
+    <Compile Include="StaticObjectBuilder.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="TypeComponent.cs" />
     <Compile Include="Walk.cs" />

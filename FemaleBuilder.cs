@@ -20,7 +20,7 @@ namespace MummyDispair
             gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/FemaleSpritesheet", 0.1f, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddTypeComponent(new Female(gameObject));
-            Collider collider = new Collider(gameObject);
+            Collider collider = new Collider(gameObject, true);
             collider.DoCollisionChecks = false;
             gameObject.AddComponent(collider);
 

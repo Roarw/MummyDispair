@@ -16,9 +16,9 @@ namespace MummyDispair
 
         public List<GameObject> CreatorObjects { get; set; } = new List<GameObject>();
 
-        private int previous = int.MinValue;
-        private int next = int.MinValue;
-        private int yCoord = int.MinValue;
+        private int previous;
+        private int next;
+        private int yCoord = -1;
 
         public LevelCreator(ContentManager content)
         {
@@ -103,7 +103,7 @@ namespace MummyDispair
 
         private void DankWallAt(int x, int y)
         {
-            RunBuilder(new WallBuilder("static/WallDank.png"), new Vector2(x * 100, y * 100));
+            RunBuilder(new StaticObjectBuilder("static/WallDank.png", 1f), new Vector2(x * 100, y * 100));
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)
