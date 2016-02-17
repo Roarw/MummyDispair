@@ -72,6 +72,8 @@
     <Compile Include="SpriteRenderer.cs" />
     <Compile Include="StaticObject.cs" />
     <Compile Include="StaticObjectBuilder.cs" />
+    <Compile Include="ToiletPaper.cs" />
+    <Compile Include="ToiletPaperBuilder.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="TypeComponent.cs" />
     <Compile Include="Walk.cs" />

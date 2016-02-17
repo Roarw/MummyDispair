@@ -65,6 +65,8 @@ namespace MummyDispair
 
             RunBuilder(new ScorpionBuilder(), new Vector2(-2300, 2400));
 
+            RunBuilder(new ToiletPaperBuilder(), new Vector2(-2400, 2400));
+
             return player;
         }
 
