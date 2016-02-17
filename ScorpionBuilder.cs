@@ -8,10 +8,20 @@ namespace MummyDispair
 {
     class ScorpionBuilder : IBuilder
     {
+        
+        private Vector2 coord2;
         private GameObject gameObject;
+        private Vector2 vector2;
 
-        public ScorpionBuilder()
+        public ScorpionBuilder(Vector2 coord2)
         {
+           
+            this.coord2 = coord2;
+        }
+
+        public ScorpionBuilder(Vector2 coord2, Vector2 vector2) : this(coord2)
+        {
+            this.vector2 = vector2;
         }
 
         public void BuildGameObject(Vector2 position)
@@ -19,7 +29,7 @@ namespace MummyDispair
             gameObject = new GameObject(position);
             gameObject.AddComponent(new SpriteRenderer(gameObject, "sheets/ScorpionSpritesheet.png", 0, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
-            gameObject.AddTypeComponent(new Scorpion(gameObject, Vector2.Zero, Vector2.Zero));
+            gameObject.AddTypeComponent(new Scorpion(gameObject, position, coord2));
             Collider collider = new Collider(gameObject);
             collider.DoCollisionChecks = false;
             gameObject.AddComponent(collider);

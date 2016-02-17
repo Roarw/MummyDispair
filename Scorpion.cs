@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class Scorpion : TypeComponent, ILoadable
+    class Scorpion : TypeComponent, ILoadable, IUpdateable
     {
         private Animator animator;
         private Vector2 coord1;
@@ -33,6 +33,11 @@ namespace MummyDispair
             strategy.Update(direction, Vector2.Zero);
         }
 
+        public void Update()
+        {
+            
+        }
+
         private void CreateAnimations()
         {
             animator.CreateAnimation("AttackRight", new Animation(6, 0, 0, 89, 75, 11f, Vector2.Zero, true));
@@ -41,5 +46,7 @@ namespace MummyDispair
             animator.CreateAnimation("WalkRight", new Animation(8, 150, 0, 89, 75, 8.5f, Vector2.Zero, true));
             animator.CreateAnimation("WalkLeft", new Animation(8, 225, 0, 89, 75, 8.5f, Vector2.Zero, true));
         }
+
+
     }
 }

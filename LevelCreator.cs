@@ -59,7 +59,7 @@ namespace MummyDispair
 
             RunBuilder(new FemaleBuilder(), new Vector2(-2480, 2555));
 
-            RunBuilder(new ScorpionBuilder(), new Vector2(-2300, 2400));
+            RunBuilder(new ScorpionBuilder(new Vector2 (-1500, 2650)), new Vector2(-1850, 2650));
 
             return player;
         }
