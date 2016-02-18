@@ -18,6 +18,10 @@ namespace MummyDispair
         private Animator animator;
         private Lazy<Dictionary<string, Color[][]>> pixels;
 
+        private int offsetX;
+        private int offsetYTop;
+        private int offsetYBottom;
+
         private Color[] CurrentPixels
         {
             get
@@ -56,9 +60,9 @@ namespace MummyDispair
             get
             {
                 return new Rectangle(
-                    (int)(gameObject.Transformer.Position.X + spriteRenderer.Offset.X),
-                    (int)(gameObject.Transformer.Position.Y + spriteRenderer.Offset.Y),
-                    spriteRenderer.Rectangle.Width, spriteRenderer.Rectangle.Height);
+                    (int)(gameObject.Transformer.Position.X + spriteRenderer.Offset.X) - offsetX,
+                    (int)(gameObject.Transformer.Position.Y + spriteRenderer.Offset.Y) - offsetYTop,
+                    spriteRenderer.Rectangle.Width + offsetX * 2, spriteRenderer.Rectangle.Height + offsetYBottom);
 
             }
         }
@@ -69,6 +73,22 @@ namespace MummyDispair
             this.otherColliders = new List<Collider>();
 
             this.pixelCollision = pixelCollision;
+
+            this.offsetX = 0;
+            this.offsetYTop = 0;
+            this.offsetYBottom = 0;
+        }
+
+        public Collider(GameObject gameObject, bool pixelCollision, int offsetX, int offsetYTop, int offsetYBottom) : base(gameObject)
+        {
+            GameWorld.Instance.Colliders.Add(this);
+            this.otherColliders = new List<Collider>();
+
+            this.pixelCollision = pixelCollision;
+
+            this.offsetX = offsetX;
+            this.offsetYTop = offsetYTop;
+            this.offsetYBottom = offsetYBottom;
         }
 
         public void LoadContent(ContentManager content)
@@ -91,34 +111,7 @@ namespace MummyDispair
             }
         }
 
-        //public Rectangle GetSideRectangle(string side)
-        //{
-        //    if (side == "Top")
-        //    {
-        //        return new Rectangle(CollisionBox.Left, 
-        //            CollisionBox.Top, CollisionBox.Right, 1);
-        //    }
-        //    else if (side == "Bottom")
-        //    {
-        //        return new Rectangle(CollisionBox.Left,
-        //            1, CollisionBox.Right, CollisionBox.Bottom);
-        //    }
-        //    else if (side == "Left")
-        //    {
-        //        return new Rectangle(CollisionBox.Left,
-        //            CollisionBox.Top, 1, CollisionBox.Bottom);
-        //    }
-        //    else if (side == "Right")
-        //    {
-        //        return new Rectangle(1, CollisionBox.Top, 
-        //            CollisionBox.Right, CollisionBox.Bottom);
-        //    }
-        //    else
-        //    {
-        //        return CollisionBox;
-        //    }
-        //}
-
+        //Normal collision check.
         private void CheckCollision()
         {
             foreach (Collider other in GameWorld.Instance.Colliders)
@@ -180,10 +173,10 @@ namespace MummyDispair
                 return false;
             }
 
-
             return true;
         }
 
+        //Draws the outline of the CollisionBox.
         public void Draw(SpriteBatch spriteBatch)
         {
 #if (DEBUG)
@@ -199,6 +192,7 @@ namespace MummyDispair
 #endif
         }
 
+        //Sets up the dictionary for pixel collision.
         private Dictionary<string, Color[][]> CachePixels()
         {
             Dictionary<string, Color[][]> tmpPixels = new Dictionary<string, Color[][]>();

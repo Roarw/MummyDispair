@@ -9,14 +9,12 @@ namespace MummyDispair
     class Walk : AnimationStrategy
     {
         private Transform transform;
-        private float speed;
         private Animator animator;
 
-        public Walk(Animator animator, Transform transform, float speed)
+        public Walk(Animator animator, Transform transform)
         {
             this.animator = animator;
             this.transform = transform;
-            this.speed = speed;
         }
 
         public void Update(Direction direction, Vector2 translation)
@@ -31,7 +29,7 @@ namespace MummyDispair
                      break;
              }
 
-            transform.Translate(translation * GameWorld.Instance.DeltaTime * speed);
+            transform.Translate(translation);
         }
     }
 }

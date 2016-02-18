@@ -21,7 +21,7 @@ namespace MummyDispair
             gameObject.AddComponent(new Animator(gameObject));
             gameObject.AddTypeComponent(new Player(gameObject, 145));
             gameObject.AddComponent(new HealthBar(gameObject, 5));
-            Collider collider = new Collider(gameObject, true);
+            Collider collider = new Collider(gameObject, true, -45, -20, -25);
             collider.DoCollisionChecks = true;
             gameObject.AddComponent(collider);
 

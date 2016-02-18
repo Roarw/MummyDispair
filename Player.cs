@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class Player : TypeComponent, ILoadable, IUpdateable, IAnimateable, ICollisionStay, ICollisionEnter, ICollisionExit
+    class Player : TypeComponent, ILoadable, IUpdateable
     {
         private AnimationStrategy strategy;
         private Direction direction;
@@ -16,8 +16,10 @@ namespace MummyDispair
         private bool walking;
         private Animator animator;
         private Collider collider;
+
+        private bool grounded;
+        private Vector2 translation;
         private float force;
-        private bool jumpReady;
 
         public Player(GameObject gameObject, int speed) : base(gameObject)
         {
@@ -35,60 +37,71 @@ namespace MummyDispair
             strategy.Update(direction, Vector2.Zero);
         }
 
+        /// <summary>
+        /// https://www.youtube.com/watch?v=IysShLIaosk
+        /// The wall collision is inspired by the link above:
+        /// </summary>
         public void Update()
         {
             KeyboardState keyState = Keyboard.GetState();
+            translation = Vector2.Zero;
 
-            Vector2 translation = Vector2.Zero;
+            if (MeetingWall(0, 1))
+            {
+                grounded = true;
+                force = 0;
+            }
+            else
+            {
+                grounded = false;
+            }
 
             //Check for movement.
-            if (keyState.IsKeyDown(Keys.D) || keyState.IsKeyDown(Keys.A))
+            if (keyState.IsKeyDown(Keys.D) && !keyState.IsKeyDown(Keys.A))
             {
                 walking = true;
-                
-                if (keyState.IsKeyDown(Keys.D))
-                {
-                    direction = (Direction.Right);
-                    translation += new Vector2(1, 0);
-                }
-                else if (keyState.IsKeyDown(Keys.A))
-                {
-                    direction = (Direction.Left);
-                    translation += new Vector2(-1, 0);
-                }
+                direction = (Direction.Right);
+                translation.X = 1;
+            }
+            else if (keyState.IsKeyDown(Keys.A) && !keyState.IsKeyDown(Keys.D))
+            {
+                walking = true;
+                direction = (Direction.Left);
+                translation.X = -1;
             }
             else
             {
                 walking = false;
+                translation.X = 0;
             }
 
             //Check for jump.
-            if (!jumpReady)
+            if (!grounded && translation.Y < 4)
             {
                 force += 0.13f;
             }
 
-            if (keyState.IsKeyDown(Keys.Space) && jumpReady)
+            if (grounded)
             {
-                jumpReady = false;
-                force -= 4.3f;
+                if (keyState.IsKeyDown(Keys.Space))
+                {
+                    force = -4.3f;
+                }
             }
 
-            translation += new Vector2(0, force);
-
             //Chosing the correct strategy.
-            if (!jumpReady)
+            if (!grounded)
             {
                 if (!(strategy is Jump))
                 {
-                    strategy = new Jump(animator, gameObject.Transformer, speed);
+                    strategy = new Jump(animator, gameObject.Transformer);
                 }
             }
             else if (walking)
             {
                 if (!(strategy is Walk))
                 {
-                    strategy = new Walk(animator, gameObject.Transformer, speed);
+                    strategy = new Walk(animator, gameObject.Transformer);
                 }
             }
             else
@@ -97,6 +110,28 @@ namespace MummyDispair
                 {
                     strategy = new Idle(animator);
                 }
+            }
+
+            translation.Y = force;
+            translation = translation * GameWorld.Instance.DeltaTime * speed;
+
+            if (MeetingWall((int)translation.X, 0))
+            {
+                while (!MeetingWall(Math.Sign(translation.X), 0))
+                {
+                    gameObject.Transformer.Translate(new Vector2(Math.Sign(translation.X), 0));
+                }
+                translation.X = 0;
+            }
+
+            if (MeetingWall(0, (int)translation.Y))
+            {
+                while (!MeetingWall(0, Math.Sign(translation.Y)))
+                {
+                    gameObject.Transformer.Translate(new Vector2(0, Math.Sign(translation.Y)));
+                }
+                translation.Y = 0;
+                force = 0;
             }
 
             strategy.Update(direction, translation);
@@ -113,29 +148,23 @@ namespace MummyDispair
             animator.CreateAnimation("IdleRight", new Animation(8, 0, 0, 166, 165, 4f, Vector2.Zero, true));
             animator.CreateAnimation("IdleLeft", new Animation(8, 165, 0, 166, 165, 4f, Vector2.Zero, true));
         }
-
-        public void OnAnimationDone(string animationName)
+        
+        private bool MeetingWall(int x, int y)
         {
+            Rectangle rect = new Rectangle(collider.CollisionBox.X + x, collider.CollisionBox.Y + y,
+                collider.CollisionBox.Width, collider.CollisionBox.Height);
 
-        }
-
-        public void OnCollisionStay(Collider other)
-        {
-            if (other.GetGameObject.TypeComponent is Wall)
+            foreach (Collider other in GameWorld.Instance.Colliders)
             {
-                jumpReady = true;
-                force = 0f;
+                if (other.GetGameObject.TypeComponent is Wall)
+                {
+                    if (rect.Intersects(other.CollisionBox))
+                    {
+                        return true;
+                    }
+                }
             }
-        }
-
-        public void OnCollisionEnter(Collider other)
-        {
-            
-        }
-
-        public void OnCollisionExit(Collider other)
-        {
-
+            return false;
         }
     }
 }

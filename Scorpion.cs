@@ -29,7 +29,7 @@ namespace MummyDispair
             CreateAnimations();
             animator.PlayAnimation("WalkRight");
 
-            strategy = new Walk(animator, gameObject.Transformer, 100);
+            strategy = new Walk(animator, gameObject.Transformer);
             strategy.Update(direction, Vector2.Zero);
         }
 
