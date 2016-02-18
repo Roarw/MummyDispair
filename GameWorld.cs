@@ -134,7 +134,7 @@ namespace MummyDispair
                     y += buttonHeight;
                 }
                 IsMouseVisible = true;
-                backgroundColor = Color.Maroon;
+                backgroundColor = Color.Gray;
             }
 
             base.Initialize();
