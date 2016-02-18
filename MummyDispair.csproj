@@ -41,6 +41,10 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Animator.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Dart.cs" />
+    <Compile Include="DartBuilder.cs" />
+    <Compile Include="DartShooter.cs" />
+    <Compile Include="DartShooterBuilder.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="MenuCamera.cs" />
     <Compile Include="PlayerCamera.cs" />
@@ -92,6 +96,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\static\BasicWall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\Dart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\static\DartWall.png">

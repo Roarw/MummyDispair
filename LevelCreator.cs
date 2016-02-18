@@ -67,6 +67,10 @@ namespace MummyDispair
 
             RunBuilder(new ToiletPaperBuilder(), new Vector2(-2400, 2400));
 
+            RunBuilder(new DartShooterBuilder(), new Vector2(-2300, 2500));
+
+            RunBuilder(new DartBuilder(), new Vector2(-2320, 2500));
+
             return player;
         }
 
