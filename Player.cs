@@ -49,7 +49,6 @@ namespace MummyDispair
             if (MeetingWall(0, 1))
             {
                 grounded = true;
-                force = 0;
             }
             else
             {
