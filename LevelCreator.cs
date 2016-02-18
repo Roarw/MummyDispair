@@ -105,13 +105,13 @@ namespace MummyDispair
 
         private void DankWallAt(int x, int y)
         {
-            if (y%2 != 1)
+            if (y%3 != 0)
             {
-                RunBuilder(new StaticObjectBuilder("static/MarkedWall1.png", 1f), new Vector2(x * 100, y * 100));
+                RunBuilder(new StaticObjectBuilder("static/MarkedWall2.png", 1f), new Vector2(x * 100, y * 100));
             }
             else
             {
-                RunBuilder(new StaticObjectBuilder("static/MarkedWall2.png", 1f), new Vector2(x * 100, y * 100));
+                RunBuilder(new StaticObjectBuilder("static/MarkedWall1.png", 1f), new Vector2(x * 100, y * 100));
             }
         }
 
