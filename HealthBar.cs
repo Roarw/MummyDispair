@@ -25,6 +25,24 @@ namespace MummyDispair
             set
             {
                 life = value;
+
+                if (life > 0)
+                {
+                    rect = new Texture2D(GameWorld.Instance.GraphicsDevice, Life * 50, 20);
+                    data = new Color[Life * 50 * 20];
+                }
+                else
+                {
+                    rect = new Texture2D(GameWorld.Instance.GraphicsDevice, 1, 20);
+                    data = new Color[20];
+                }
+                
+                for (int i = 0; i < data.Length; ++i)
+                {
+                    data[i] = Color.DarkGreen;
+                }
+
+                rect.SetData(data);
             }
         }
         
@@ -43,14 +61,6 @@ namespace MummyDispair
             }
             rect.SetData(data);
         }
-
-        //rect = new Texture2D(GameWorld.Instance.GraphicsDevice, Life* 50, 20);
-        //data = new Color[Life * 50 * 20];
-        //for (int i = 0; i < data.Length; ++i)
-        //{
-        //    data[i] = Color.DarkGreen;
-        //}
-        //rect.SetData(data);
 
         public void Update()
         {

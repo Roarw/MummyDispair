@@ -11,9 +11,11 @@ namespace MummyDispair
     {
 
         private Animator animator;
+        private int speed;
 
-        public Dart(GameObject gameObject) : base(gameObject)
+        public Dart(GameObject gameObject, int speed) : base(gameObject)
         {
+            this.speed = speed;
         }
 
         public void LoadContent(ContentManager content)
@@ -33,9 +35,10 @@ namespace MummyDispair
         {
             Vector2 translation = Vector2.Zero;
 
-            translation += new Vector2(1, 0);
-            
+            translation += new Vector2(speed, 0);
+            translation = translation * GameWorld.Instance.DeltaTime;
 
+            gameObject.Transformer.Translate(translation);
         }
 
         public void OnCollisionEnter(Collider other)
@@ -50,7 +53,7 @@ namespace MummyDispair
         {
             if (other.GetGameObject.TypeComponent is Wall)
             {
-                
+                gameObject.IsAlive = false;
             }
         }
 

@@ -51,12 +51,19 @@ namespace MummyDispair
             WallRange(-21, -18, 21); WallAt(8, 21); /*spike*/ WallAt(10, 21); WallRange(17, 20, 21);
             WallRange(-22, -19, 22); WallRange(8, 10, 22); /*spike*/ WallAt(12, 22); WallRange(17, 20, 22);
             WallRange(-27, -20, 23); /*dart->*/WallAt(-10, 23); WallRange(9, 12, 23); /*spike*/ WallAt(14, 23); WallRange(17, 20, 23);
-            WallRange(-27, -26, 24); WallAt(-20, 24); /*dart->*/WallAt(-10, 24); WallRange(-9, 5, 24); WallRange(10, 14, 24); /*hole*/ WallRange(16, 20, 24);
+            WallRange(-27, -26, 24); WallAt(-20, 24); DartShooterAt(-10, 24); WallRange(-9, 5, 24); WallRange(10, 14, 24); /*hole*/ WallRange(16, 20, 24);
             WallRange(-27, -26, 25); WallRange(-16, -12, 25); WallRange(16, 20, 25);
             WallRange(-27, -26, 26); WallRange(-17, -12, 26); WallRange(16, 20, 26);
             WallRange(-27, -12, 27); WallRange(16, 20, 27);
             WallRange(-27, 20, 28);
             WallRange(-13, 17, 29);
+
+            PlatformAt(-4, 8); PlatformAt(-4, 9); PlatformAt(-4, 10); PlatformAt(-4, 11);
+            PlatformAt(7, 12); PlatformAt(7, 13); PlatformAt(7, 14); PlatformAt(7, 15);
+            PlatformAt(-11, 16); PlatformAt(-11, 17); PlatformAt(-11, 18); PlatformAt(-11, 19);
+            PlatformAt(15, 24); PlatformAt(15, 25); PlatformAt(15, 26); PlatformAt(15, 27);
+
+            /*Insert later*/ PlatformAt(6, 24); PlatformAt(6, 25); PlatformAt(6, 26); PlatformAt(6, 27);
 
 
             GameObject player = RunBuilder(new PlayerBuilder(), new Vector2(-2400, 2500));
@@ -65,11 +72,9 @@ namespace MummyDispair
 
             RunBuilder(new ScorpionBuilder(-200), new Vector2(-2200, 2400));
 
-            RunBuilder(new ToiletPaperBuilder(), new Vector2(-2400, 2400));
+            RunBuilder(new ToiletPaperBuilder(), new Vector2(-2200, 2600));
 
-            RunBuilder(new DartShooterBuilder(), new Vector2(-2300, 2500));
-
-            RunBuilder(new DartBuilder(), new Vector2(-2320, 2500));
+            RunBuilder(new DartBuilder(165), new Vector2(-2320, 2500));
 
             return player;
         }
@@ -117,6 +122,16 @@ namespace MummyDispair
             {
                 RunBuilder(new StaticObjectBuilder("static/MarkedWall1.png", 1f), new Vector2(x * 100, y * 100));
             }
+        }
+
+        private void PlatformAt(int x, int y)
+        {
+            RunBuilder(new PlatformBuilder("static/Platform.png"), new Vector2(x * 100, y * 100));
+        }
+
+        private void DartShooterAt(int x, int y)
+        {
+            RunBuilder(new DartShooterBuilder(), new Vector2(x * 100 - 6, y * 100));
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)

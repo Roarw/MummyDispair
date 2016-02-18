@@ -18,7 +18,8 @@ namespace MummyDispair
         private Animator animator;
         private Lazy<Dictionary<string, Color[][]>> pixels;
 
-        private int offsetX;
+        private int offsetXLeft;
+        private int offsetXRight;
         private int offsetYTop;
         private int offsetYBottom;
 
@@ -60,9 +61,9 @@ namespace MummyDispair
             get
             {
                 return new Rectangle(
-                    (int)(gameObject.Transformer.Position.X + spriteRenderer.Offset.X) - offsetX,
+                    (int)(gameObject.Transformer.Position.X + spriteRenderer.Offset.X) - offsetXLeft,
                     (int)(gameObject.Transformer.Position.Y + spriteRenderer.Offset.Y) - offsetYTop,
-                    spriteRenderer.Rectangle.Width + offsetX * 2, spriteRenderer.Rectangle.Height + offsetYBottom);
+                    spriteRenderer.Rectangle.Width + offsetXRight, spriteRenderer.Rectangle.Height + offsetYBottom);
 
             }
         }
@@ -74,7 +75,9 @@ namespace MummyDispair
 
             this.pixelCollision = pixelCollision;
 
-            this.offsetX = 0;
+            this.offsetXLeft = 0;
+            this.offsetXRight = 0;
+
             this.offsetYTop = 0;
             this.offsetYBottom = 0;
         }
@@ -86,9 +89,25 @@ namespace MummyDispair
 
             this.pixelCollision = pixelCollision;
 
-            this.offsetX = offsetX;
+            this.offsetXLeft = offsetX;
+            this.offsetXRight = offsetX * 2;
+
             this.offsetYTop = offsetYTop;
             this.offsetYBottom = offsetYBottom;
+        }
+
+        public Collider(GameObject gameObject, bool pixelCollision, int offsetXLeft, int offsetXRight) : base(gameObject)
+        {
+            GameWorld.Instance.Colliders.Add(this);
+            this.otherColliders = new List<Collider>();
+
+            this.pixelCollision = pixelCollision;
+
+            this.offsetXLeft = offsetXLeft;
+            this.offsetXRight = offsetXRight;
+
+            this.offsetYTop = 0;
+            this.offsetYBottom = 0;
         }
 
         public void LoadContent(ContentManager content)

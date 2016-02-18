@@ -105,11 +105,11 @@ namespace MummyDispair
         /// </summary>
         protected override void Initialize()
         {
-            //SoundEffect effect = Content.Load<SoundEffectInstance>("");
-            //musicEngine = effect.CreateInstance();
-            //musicEngine.IsLooped = true;
-            //musicEngine.Volume = 0.5f;
-            //musicEngine.Play();
+            SoundEffect effect = Content.Load<SoundEffect>("Sound/PharaohMusic");
+            musicEngine = effect.CreateInstance();
+            musicEngine.IsLooped = true;
+            musicEngine.Volume = 0.0f;
+            musicEngine.Play();
 
             if (!gameStarted)
             {
@@ -232,12 +232,11 @@ namespace MummyDispair
                     }
                     else
                     {
-                        Objects.Remove(Objects[i]);
-
                         if (Colliders.Contains((Collider)Objects[i].GetComponent("Collider")))
                         {
                             Colliders.Remove((Collider)Objects[i].GetComponent("Collider"));
                         }
+                        Objects.Remove(Objects[i]);
                     }
                 }
             }
@@ -358,6 +357,11 @@ namespace MummyDispair
                             //Button actions.
                             if (i == 0)
                             {
+                                SoundEffect mummyMoan = Content.Load<SoundEffect>("Sound/zombieSound");
+                                SoundEffectInstance mummyMoanInstance = mummyMoan.CreateInstance();
+                                mummyMoanInstance.Volume = 0.25f;
+                                mummyMoanInstance.Play();
+                                
                                 gameStarted = true;
                                 LoadContent();
                             }

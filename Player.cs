@@ -5,10 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MummyDispair
 {
-    class Player : TypeComponent, ILoadable, IUpdateable, ICollisionStay
+    class Player : TypeComponent, ILoadable, IUpdateable, ICollisionStay, ICollisionEnter
     {
         private AnimationStrategy strategy;
         private Direction direction;
@@ -21,6 +22,13 @@ namespace MummyDispair
         private Vector2 translation;
         private float force;
 
+        SoundEffect mummyJump;
+        SoundEffectInstance mummyJumpInstance;
+        SoundEffect mummyDamage;
+        SoundEffectInstance mummyDamageInstance;
+
+        HealthBar healthBar;
+
         public Player(GameObject gameObject, int speed) : base(gameObject)
         {
             this.speed = speed;
@@ -31,10 +39,19 @@ namespace MummyDispair
         {
             this.animator = (Animator)gameObject.GetComponent("Animator");
             this.collider = (Collider)gameObject.GetComponent("Collider");
+            this.healthBar = (HealthBar)gameObject.GetComponent("HealthBar");
 
             CreateAnimations();
             strategy = new Idle(animator);
             strategy.Update(direction, Vector2.Zero);
+
+            mummyJump = content.Load<SoundEffect>("Sound/JumpSound");
+            mummyJumpInstance = mummyJump.CreateInstance();
+            mummyJumpInstance.Volume = 0.05f;
+
+            mummyDamage = content.Load<SoundEffect>("Sound/deathSound");
+            mummyDamageInstance = mummyDamage.CreateInstance();
+            mummyDamageInstance.Volume = 0.3f;
         }
 
         /// <summary>
@@ -74,6 +91,15 @@ namespace MummyDispair
                 translation.X = 0;
             }
 
+            //Checks for platform fallthrough
+            if (keyState.IsKeyDown(Keys.S) && grounded)
+            {
+                if (PlatformBelow())
+                {
+                    gameObject.Transformer.Translate(new Vector2(0, 2));
+                }
+            }
+
             //Check for jump.
             if (!grounded && translation.Y < 4)
             {
@@ -86,6 +112,7 @@ namespace MummyDispair
                 {
                     grounded = false;
                     force = -4.3f;
+                    mummyJumpInstance.Play();
                 }
             }
 
@@ -148,7 +175,38 @@ namespace MummyDispair
             animator.CreateAnimation("IdleRight", new Animation(8, 0, 0, 166, 165, 4f, Vector2.Zero, true));
             animator.CreateAnimation("IdleLeft", new Animation(8, 165, 0, 166, 165, 4f, Vector2.Zero, true));
         }
+
+        //Checks if there is a platform below the player, without a wall blocking.
+        private bool PlatformBelow()
+        {
+            Rectangle rect = new Rectangle(collider.CollisionBox.X, collider.CollisionBox.Y + 1,
+                collider.CollisionBox.Width, collider.CollisionBox.Height);
+
+            bool platformBelow = false;
+
+            //Makes sure there is no wall in the way.
+            foreach (Collider other in GameWorld.Instance.Colliders)
+            {
+                if (other.GetGameObject.TypeComponent is Wall || other.GetGameObject.TypeComponent is DartShooter)
+                {
+                    if (rect.Intersects(other.CollisionBox))
+                    {
+                        return false;
+                    }
+                }
+                if (other.GetGameObject.TypeComponent is Platform)
+                {
+                    if (rect.Intersects(other.CollisionBox))
+                    {
+                        platformBelow = true;
+                    }
+                }
+            }
+
+            return platformBelow;
+        }
         
+        //Checks for solid ground below the player.
         private bool MeetingWall(int x, int y)
         {
             Rectangle rect = new Rectangle(collider.CollisionBox.X + x, collider.CollisionBox.Y + y,
@@ -156,7 +214,15 @@ namespace MummyDispair
 
             foreach (Collider other in GameWorld.Instance.Colliders)
             {
-                if (other.GetGameObject.TypeComponent is Wall)
+                if (other.GetGameObject.TypeComponent is Wall || other.GetGameObject.TypeComponent is DartShooter)
+                {
+                    if (rect.Intersects(other.CollisionBox))
+                    {
+                        return true;
+                    }
+                }
+                if (other.GetGameObject.TypeComponent is Platform && force >= 0 &&
+                    collider.CollisionBox.Y + collider.CollisionBox.Height < other.CollisionBox.Y + 1)
                 {
                     if (rect.Intersects(other.CollisionBox))
                     {
@@ -170,13 +236,19 @@ namespace MummyDispair
         public void OnCollisionStay(Collider other)
         {
             //Unstuck function.
-            if (other.GetGameObject.TypeComponent is Wall)
+            if (other.GetGameObject.TypeComponent is Wall || other.GetGameObject.TypeComponent is DartShooter)
             {
                 Vector2 newPos = FindGoodPosition(0, 0);
                 gameObject.Transformer.Translate(newPos);
             }
+
+            else if (other.GetGameObject.TypeComponent is Scorpion)
+            {
+                TakeDamage(1);
+            }
         }
 
+        //If the player is stuck, we find the nearest free position.
         private Vector2 FindGoodPosition(int x, int y)
         {
             for (int i = -y; i <= y; i++)
@@ -185,12 +257,37 @@ namespace MummyDispair
                 {
                     if (!MeetingWall(i, j))
                     {
+                        //Sometimes lag (i assume) causes the player to get stuck.
                         System.Diagnostics.Debug.WriteLine("Unstuck with new translation: " + i + ", " + j);
                         return new Vector2(i, j);
                     }
                 }
             }
             return FindGoodPosition(x + 1, y + 1);
+        }
+
+        public void OnCollisionEnter(Collider other)
+        {
+            if (other.GetGameObject.TypeComponent is ToiletPaper)
+            {
+                other.GetGameObject.IsAlive = false;
+                healthBar.Life += 1;
+            }
+
+            else if (other.GetGameObject.TypeComponent is Dart)
+            {
+                 other.GetGameObject.IsAlive = false;
+                 TakeDamage(1);
+            }
+        }
+
+        private void TakeDamage(int damage)
+        {
+            if (mummyDamageInstance.State.ToString() == "Stopped")
+            {
+                mummyDamageInstance.Play();
+                healthBar.Life -= damage;
+            }
         }
     }
 }

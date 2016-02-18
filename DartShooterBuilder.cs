@@ -19,8 +19,8 @@ namespace MummyDispair
             gameObject = new GameObject(position);
             gameObject.AddComponent(new SpriteRenderer(gameObject, "static/DartWall.png", 0.99f, Vector2.Zero));
             gameObject.AddComponent(new Animator(gameObject));
-            gameObject.AddTypeComponent(new DartShooter(gameObject));
-            Collider collider = new Collider(gameObject, false);
+            gameObject.AddTypeComponent(new DartShooter(gameObject, false));
+            Collider collider = new Collider(gameObject, false, -6, -6);
             collider.DoCollisionChecks = false;
             gameObject.AddComponent(collider);
 
