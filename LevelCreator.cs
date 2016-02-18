@@ -10,17 +10,15 @@ namespace MummyDispair
     class LevelCreator
     {
 
-        ContentManager content;
+        private ContentManager content;
 
-        Director dir;
+        private Director dir;
 
-        public List<GameObject> CreatorObjects { get; set; } = new List<GameObject>();
+        public List<GameObject> CreatorObjects { get; } = new List<GameObject>();
 
         private int previous;
         private int next;
         private int yCoord = -1;
-
-        private int backWall = 0;
 
         public LevelCreator(ContentManager content)
         {
@@ -107,29 +105,14 @@ namespace MummyDispair
 
         private void DankWallAt(int x, int y)
         {
-            if (backWall == 9)
+            if (y%2 != 1)
             {
-                backWall = 0;
-            }
-
-            if (backWall == 3)
-            {
-                RunBuilder(new StaticObjectBuilder("static/BackWall3.png", 1f), new Vector2(x * 100, y * 100));
-            }
-            else if (backWall == 5)
-            {
-                RunBuilder(new StaticObjectBuilder("static/BackWall4.png", 1f), new Vector2(x * 100, y * 100));
-            }
-            else if (backWall == 7)
-            {
-                RunBuilder(new StaticObjectBuilder("static/BackWall2.png", 1f), new Vector2(x * 100, y * 100));
+                RunBuilder(new StaticObjectBuilder("static/MarkedWall1.png", 1f), new Vector2(x * 100, y * 100));
             }
             else
             {
-                RunBuilder(new StaticObjectBuilder("static/BackWall1.png", 1f), new Vector2(x * 100, y * 100));
+                RunBuilder(new StaticObjectBuilder("static/MarkedWall2.png", 1f), new Vector2(x * 100, y * 100));
             }
-
-            backWall++;
         }
 
         private GameObject RunBuilder(IBuilder build, Vector2 position)

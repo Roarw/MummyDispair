@@ -23,7 +23,7 @@ namespace MummyDispair
         public PlayerCamera(GameObject player)
         {
             this.player = player;
-            halfScreen = new Vector2((780 - 165) * 0.5f, (500 - 165) * 0.5f);
+            halfScreen = new Vector2((GameWorld.Instance.ScreenWidth - 165) * 0.5f, (GameWorld.Instance.ScreenHeight - 165) * 0.5f);
             UpdateCameraMatrix();
         }
 

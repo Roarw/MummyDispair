@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 namespace MummyDispair
 {
@@ -55,7 +56,10 @@ namespace MummyDispair
         private bool gameStarted;
 
         //Others
-        PlayerCamera camera;
+        private PlayerCamera camera;
+
+        public int ScreenWidth { get; } = 780;
+        public int ScreenHeight { get; } = 500;
 
         public List<Collider> Colliders { get; } = new List<Collider>();
         public List<GameObject> Objects { get; } = new List<GameObject>();
@@ -110,8 +114,8 @@ namespace MummyDispair
             if (!gameStarted)
             {
                 // TODO: Add your initialization logic here
-                graphics.PreferredBackBufferWidth = 780;  // set this value to the desired width of your window
-                graphics.PreferredBackBufferHeight = 500;   // set this value to the desired height of your window
+                graphics.PreferredBackBufferWidth = ScreenWidth;  // set this value to the desired width of your window
+                graphics.PreferredBackBufferHeight = ScreenHeight;   // set this value to the desired height of your window
                 graphics.ApplyChanges();
 
                 // starting x and y locations to stack buttons 
@@ -130,7 +134,7 @@ namespace MummyDispair
                     y += buttonHeight;
                 }
                 IsMouseVisible = true;
-                backgroundColor = Color.Gray;
+                backgroundColor = Color.Maroon;
             }
 
             base.Initialize();
@@ -214,7 +218,7 @@ namespace MummyDispair
                 mousePressed = mouseState.LeftButton == ButtonState.Pressed;
 
 
-                updateButtons();
+                UpdateButtons();
             }
             else
             {
@@ -270,7 +274,11 @@ namespace MummyDispair
             {
                 foreach (GameObject go in Objects)
                 {
-                    go.Draw(spriteBatch);
+                    //OnScreen makes sure we don't draw GameObject outside of our vision.
+                    if (OnScreen(go))
+                    {
+                        go.Draw(spriteBatch);
+                    }
                 }
             }
 
@@ -279,36 +287,43 @@ namespace MummyDispair
             base.Draw(gameTime);
         }
 
+        private bool OnScreen(GameObject go)
+        {
+            SpriteRenderer spriteRender = (SpriteRenderer)go.GetComponent("SpriteRenderer");
+            return (go.Transformer.Position.X + spriteRender.Rectangle.Width > -camera.CameraMatrix.Translation.X &&
+                    go.Transformer.Position.X < -camera.CameraMatrix.Translation.X + ScreenWidth &&
+                    go.Transformer.Position.Y + spriteRender.Rectangle.Height > -camera.CameraMatrix.Translation.Y &&
+                    go.Transformer.Position.Y < -camera.CameraMatrix.Translation.Y + ScreenHeight);
+        }
 
+        /// <summary>
+        /// Below is the methods used for the menu.
 
         //Menu stuff
-        private bool hit_image_alpha(Rectangle rect, Texture2D tex, int x, int y)
+        private bool HitImageAlpha(Rectangle rect, Texture2D tex, int x, int y)
         {
-            return hit_image_alpha(0, 0, tex, tex.Width * (x - rect.X) /
+            return HitImageAlpha(0, 0, tex, tex.Width * (x - rect.X) /
                 rect.Width, tex.Height * (y - rect.Y) / rect.Height);
         }
 
         // wraps hit_image then determines if hit a transparent part of image 
-        private bool hit_image_alpha(float tx, float ty, Texture2D tex, int x, int y)
+        private bool HitImageAlpha(float tx, float ty, Texture2D tex, int x, int y)
         {
-            if (hit_image(tx, ty, tex, x, y))
+            if (HitImage(tx, ty, tex, x, y))
             {
                 uint[] data = new uint[tex.Width * tex.Height];
                 tex.GetData<uint>(data);
                 if ((x - (int)tx) + (y - (int)ty) *
                     tex.Width < tex.Width * tex.Height)
                 {
-                    return ((data[
-                        (x - (int)tx) + (y - (int)ty) * tex.Width
-                        ] &
-                                4278190080) >> 24) > 20;
+                    return ((data[(x - (int)tx) + (y - (int)ty) * tex.Width] & 4278190080) >> 24) > 20;
                 }
             }
             return false;
         }
 
         // determines whether x and y is within the rectangle formed by the texture located at tx,ty
-        private bool hit_image(float tx, float ty, Texture2D tex, int x, int y)
+        private bool HitImage(float tx, float ty, Texture2D tex, int x, int y)
         {
             return (x >= tx &&
                 x <= tx + tex.Width &&
@@ -317,13 +332,13 @@ namespace MummyDispair
         }
 
         // determines the state and color of the button
-        private void updateButtons()
+        private void UpdateButtons()
         {
 
             for (int i = 0; i < numberOfButtons; i++)
             {
 
-                if (hit_image_alpha(buttonRectangle[i], buttonTexture[i], mouseX, mouseY))
+                if (HitImageAlpha(buttonRectangle[i], buttonTexture[i], mouseX, mouseY))
                 {
                     buttonTimer[i] = 0.0;
                     if (mousePressed)
@@ -348,7 +363,7 @@ namespace MummyDispair
                             }
                             else if (i == 1)
                             {
-                                System.Diagnostics.Debug.WriteLine("Go fuck yourself.");
+                                System.Diagnostics.Debug.WriteLine("No help here.");
                             }
                             else if (i == 2)
                             {
