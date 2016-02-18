@@ -47,6 +47,7 @@
     <Compile Include="DartShooterBuilder.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="MenuCamera.cs" />
+    <Compile Include="Platform.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="Female.cs" />
     <Compile Include="FemaleBuilder.cs" />

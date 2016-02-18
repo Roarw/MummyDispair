@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace MummyDispair
 {
-    class Player : TypeComponent, ILoadable, IUpdateable
+    class Player : TypeComponent, ILoadable, IUpdateable, ICollisionStay
     {
         private AnimationStrategy strategy;
         private Direction direction;
@@ -39,7 +39,7 @@ namespace MummyDispair
 
         /// <summary>
         /// https://www.youtube.com/watch?v=IysShLIaosk
-        /// The wall collision is inspired by the link above:
+        /// The wall collision is inspired partly by the link above:
         /// </summary>
         public void Update()
         {
@@ -84,6 +84,7 @@ namespace MummyDispair
             {
                 if (keyState.IsKeyDown(Keys.Space))
                 {
+                    grounded = false;
                     force = -4.3f;
                 }
             }
@@ -164,6 +165,32 @@ namespace MummyDispair
                 }
             }
             return false;
+        }
+
+        public void OnCollisionStay(Collider other)
+        {
+            //Unstuck function.
+            if (other.GetGameObject.TypeComponent is Wall)
+            {
+                Vector2 newPos = FindGoodPosition(0, 0);
+                gameObject.Transformer.Translate(newPos);
+            }
+        }
+
+        private Vector2 FindGoodPosition(int x, int y)
+        {
+            for (int i = -y; i <= y; i++)
+            {
+                for (int j = -x; j <= x; j++)
+                {
+                    if (!MeetingWall(i, j))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Unstuck with new translation: " + i + ", " + j);
+                        return new Vector2(i, j);
+                    }
+                }
+            }
+            return FindGoodPosition(x + 1, y + 1);
         }
     }
 }

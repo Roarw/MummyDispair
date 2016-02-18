@@ -10,16 +10,16 @@ namespace MummyDispair
     class Scorpion : TypeComponent, ILoadable, IUpdateable
     {
         private Animator animator;
-        private Vector2 coord1;
-        private Vector2 coord2;
+        private Vector2 startPosition;
+        private int patrolX;
         private Direction direction;
         private AnimationStrategy strategy;
 
-        public Scorpion(GameObject gameObject, Vector2 coord1, Vector2 coord2) : base(gameObject)
+        public Scorpion(GameObject gameObject, Vector2 startPosition, int patrolX) : base(gameObject)
         {
-            this.coord1 = coord1;
-            this.coord2 = coord2;
             direction = (Direction.Right);
+            this.startPosition = startPosition;
+            this.patrolX = patrolX;
         }
 
         public void LoadContent(ContentManager content)
