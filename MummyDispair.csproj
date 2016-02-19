@@ -47,6 +47,8 @@
     <Compile Include="DartShooterBuilder.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="MenuCamera.cs" />
+    <Compile Include="Necklace.cs" />
+    <Compile Include="NecklaceBuilder.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformBuilder.cs" />
     <Compile Include="PlayerCamera.cs" />
@@ -94,7 +96,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Sound\blowpipeDarts.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sound\deathSound.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sound\doors.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sound\JumpSound.wav">
@@ -112,10 +120,19 @@
     <Content Include="Content\static\BasicWall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\static\Amulet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\static\Dart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\static\DartReverse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\static\DartWall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\DartWallReverse.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\static\MarkedWall1.png">

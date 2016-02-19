@@ -37,3 +37,15 @@
 /processorParam:Quality=Medium
 /build:Sound/deathSound.wav
 
+#begin Sound/blowpipeDarts.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Medium
+/build:Sound/blowpipeDarts.wav
+
+#begin Sound/doors.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/doors.wav
+

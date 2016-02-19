@@ -14,7 +14,7 @@ namespace MummyDispair
 
         private Director dir;
 
-        public List<GameObject> CreatorObjects { get; } = new List<GameObject>();
+        private List<GameObject> creatorObjects;
 
         private int previous;
         private int next;
@@ -23,9 +23,10 @@ namespace MummyDispair
         public LevelCreator(ContentManager content)
         {
             this.content = content;
+            creatorObjects = new List<GameObject>();
         }
 
-        public GameObject AddToList()
+        public List<GameObject> AddToList()
         {
             WallAt(0, 0);
             WallRange(-1, 1, 1);
@@ -36,9 +37,9 @@ namespace MummyDispair
             WallRange(-6, -5, 6); WallRange(5, 6, 6);
             WallRange(-7, -5, 7); WallRange(5, 7, 7);
             WallRange(-8, -5, 8); /*hole*/ WallRange(-3, -1, 8); /*relic hole*/ WallRange(1, 8, 8);
-            WallRange(-9, -5, 9); WallRange(8, 9, 9);
+            WallRange(-9, -6, 9); /*dart shooter*/ WallRange(8, 9, 9);
             WallRange(-10, -5, 10); WallRange(8, 10, 10);
-            WallRange(-11, -5, 11); WallRange(8, 11, 11);
+            WallRange(-11, -6, 11); /*dart shooter*/ WallRange(8, 11, 11);
             WallRange(-12, -1, 12); /*relic hole*/ WallRange(1, 6, 12); /*hole*/ WallRange(8, 12, 12);
             WallRange(-13, -12, 13); WallRange(8, 13, 13);
             WallRange(-14, -12, 14); WallRange(8, 14, 14);
@@ -51,7 +52,7 @@ namespace MummyDispair
             WallRange(-21, -18, 21); WallAt(8, 21); /*spike*/ WallAt(10, 21); WallRange(17, 20, 21);
             WallRange(-22, -19, 22); WallRange(8, 10, 22); /*spike*/ WallAt(12, 22); WallRange(17, 20, 22);
             WallRange(-27, -20, 23); /*dart->*/WallAt(-10, 23); WallRange(9, 12, 23); /*spike*/ WallAt(14, 23); WallRange(17, 20, 23);
-            WallRange(-27, -26, 24); WallAt(-20, 24); DartShooterAt(-10, 24); WallRange(-9, 5, 24); WallRange(10, 14, 24); /*hole*/ WallRange(16, 20, 24);
+            WallRange(-27, -26, 24); WallAt(-20, 24); /*dart shooter*/ WallRange(-9, 5, 24); WallRange(10, 14, 24); /*hole*/ WallRange(16, 20, 24);
             WallRange(-27, -26, 25); WallRange(-16, -12, 25); WallRange(16, 20, 25);
             WallRange(-27, -26, 26); WallRange(-17, -12, 26); WallRange(16, 20, 26);
             WallRange(-27, -12, 27); WallRange(16, 20, 27);
@@ -62,11 +63,13 @@ namespace MummyDispair
             PlatformAt(7, 12); PlatformAt(7, 13); PlatformAt(7, 14); PlatformAt(7, 15);
             PlatformAt(-11, 16); PlatformAt(-11, 17); PlatformAt(-11, 18); PlatformAt(-11, 19);
             PlatformAt(15, 24); PlatformAt(15, 25); PlatformAt(15, 26); PlatformAt(15, 27);
-
-            /*Insert later*/ PlatformAt(6, 24); PlatformAt(6, 25); PlatformAt(6, 26); PlatformAt(6, 27);
-
-
+            
             GameObject player = RunBuilder(new PlayerBuilder(), new Vector2(-2400, 2500));
+
+            DartShooterAt(-10, 24, false, 0, player);
+            DartShooterAt(-5, 9, true, 30, player); DartShooterAt(-5, 11, true, 0, player);
+
+            RunBuilder(new NecklaceBuilder(), new Vector2(16, 724));
 
             RunBuilder(new FemaleBuilder(), new Vector2(-2480, 2555));
 
@@ -74,9 +77,7 @@ namespace MummyDispair
 
             RunBuilder(new ToiletPaperBuilder(), new Vector2(-2200, 2600));
 
-            RunBuilder(new DartBuilder(165), new Vector2(-2320, 2500));
-
-            return player;
+            return creatorObjects;
         }
 
         private void WallRange(int x1, int x2, int y)
@@ -129,20 +130,29 @@ namespace MummyDispair
             RunBuilder(new PlatformBuilder("static/Platform.png"), new Vector2(x * 100, y * 100));
         }
 
-        private void DartShooterAt(int x, int y)
+        private void DartShooterAt(int x, int y, bool shootRight, float interval, GameObject playerObject)
         {
-            RunBuilder(new DartShooterBuilder(), new Vector2(x * 100 - 6, y * 100));
+            RunBuilder(new DartShooterBuilder(shootRight, interval, playerObject), new Vector2(x * 100 - 6, y * 100));
         }
-
+        
         private GameObject RunBuilder(IBuilder build, Vector2 position)
         {
             dir = new Director(build);
             GameObject gameObject = dir.Construct(position);
             gameObject.LoadContent(content);
-            CreatorObjects.Add(gameObject);
+            creatorObjects.Add(gameObject);
 
             return gameObject;
         }
 
+        //Should only be run by GameWorld.
+        public List<GameObject> NextLevel()
+        {
+            creatorObjects = new List<GameObject>();
+
+            PlatformAt(6, 24); PlatformAt(6, 25); PlatformAt(6, 26); PlatformAt(6, 27);
+
+            return creatorObjects;
+        }
     }
 }

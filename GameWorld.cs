@@ -64,6 +64,9 @@ namespace MummyDispair
         public List<Collider> Colliders { get; } = new List<Collider>();
         public List<GameObject> Objects { get; } = new List<GameObject>();
 
+        private LevelCreator levelCreator;
+        private bool nextLevel;
+
         private float deltaTime;
 
         public float DeltaTime
@@ -95,6 +98,7 @@ namespace MummyDispair
             Content.RootDirectory = "Content";
 
             gameStarted = false;
+            nextLevel = false;
         }
 
         /// <summary>
@@ -108,7 +112,7 @@ namespace MummyDispair
             SoundEffect effect = Content.Load<SoundEffect>("Sound/PharaohMusic");
             musicEngine = effect.CreateInstance();
             musicEngine.IsLooped = true;
-            musicEngine.Volume = 0.0f;
+            musicEngine.Volume = 0.0f; /*Set to 0.4f before release*/
             musicEngine.Play();
 
             if (!gameStarted)
@@ -165,12 +169,18 @@ namespace MummyDispair
 
             else
             {
-                LevelCreator LevelCreate = new LevelCreator(Content);
-                GameObject player = LevelCreate.AddToList();
+                levelCreator = new LevelCreator(Content);
+                List<GameObject> creatorObjects = levelCreator.AddToList();
+                GameObject player = null;
 
-                for (int i = 0; i < LevelCreate.CreatorObjects.Count; i++)
+                for (int i = 0; i < creatorObjects.Count; i++)
                 {
-                    Objects.Add(LevelCreate.CreatorObjects[i]);
+                    Objects.Add(creatorObjects[i]);
+
+                    if (creatorObjects[i].TypeComponent is Player)
+                    {
+                        player = creatorObjects[i];
+                    }
                 }
 
                 camera = new PlayerCamera(player);
@@ -207,6 +217,19 @@ namespace MummyDispair
 
             // TODO: Add your update logic here
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            //Should only be run once.
+            if (nextLevel)
+            {
+                List<GameObject> creatorObjects = levelCreator.NextLevel();
+
+                for (int i = 0; i < creatorObjects.Count; i++)
+                {
+                    Objects.Add(creatorObjects[i]);
+                }
+
+                nextLevel = false;
+            }
 
             if (!gameStarted)
             {
@@ -293,6 +316,15 @@ namespace MummyDispair
                     go.Transformer.Position.X < -camera.CameraMatrix.Translation.X + ScreenWidth &&
                     go.Transformer.Position.Y + spriteRender.Rectangle.Height > -camera.CameraMatrix.Translation.Y &&
                     go.Transformer.Position.Y < -camera.CameraMatrix.Translation.Y + ScreenHeight);
+        }
+
+        public void NextLevel(GameObject gameObject)
+        {
+            if (gameObject.TypeComponent is Necklace)
+            {
+                System.Diagnostics.Debug.WriteLine("asdasda");
+                nextLevel = true;
+            }
         }
 
         /// <summary>
