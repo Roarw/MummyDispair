@@ -29,10 +29,13 @@ namespace MummyDispair
 
         HealthBar healthBar;
 
+        public bool GotNecklace { get; set; }
+
         public Player(GameObject gameObject, int speed) : base(gameObject)
         {
             this.speed = speed;
             direction = (Direction.Right);
+            GotNecklace = false;
         }
 
         public void LoadContent(ContentManager content)
@@ -103,7 +106,7 @@ namespace MummyDispair
             //Check for jump.
             if (!grounded && translation.Y < 4)
             {
-                force += 0.13f;
+                force += 0.1f;
             }
 
             if (grounded)
@@ -111,7 +114,7 @@ namespace MummyDispair
                 if (keyState.IsKeyDown(Keys.Space))
                 {
                     grounded = false;
-                    force = -4.3f;
+                    force = -3.2f;
                     mummyJumpInstance.Play();
                 }
             }
@@ -242,7 +245,7 @@ namespace MummyDispair
                 gameObject.Transformer.Translate(newPos);
             }
 
-            else if (other.GetGameObject.TypeComponent is Scorpion)
+            else if (other.GetGameObject.TypeComponent is Scorpion || other.GetGameObject.TypeComponent is Poison)
             {
                 TakeDamage(1);
             }
@@ -278,6 +281,12 @@ namespace MummyDispair
             {
                  other.GetGameObject.IsAlive = false;
                  TakeDamage(1);
+            }
+            
+            else if (other.GetGameObject.TypeComponent is Female && GotNecklace)
+            {
+                GameWorld.Instance.YouWon(gameObject);
+                GotNecklace = false;
             }
         }
 

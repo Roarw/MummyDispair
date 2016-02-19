@@ -15,11 +15,33 @@ namespace MummyDispair
         private Direction direction;
         private AnimationStrategy strategy;
 
+        private int speed;
+        private bool patrolPointRight;
+        private Vector2 otherPosition;
+        private Vector2 firstPosition;
+        private bool changeDirection;
+
         public Scorpion(GameObject gameObject, Vector2 startPosition, int patrolX) : base(gameObject)
         {
-            direction = (Direction.Right);
             this.startPosition = startPosition;
             this.patrolX = patrolX;
+
+            speed = 120;
+            otherPosition = new Vector2(gameObject.Transformer.Position.X + patrolX, gameObject.Transformer.Position.Y);
+            firstPosition = startPosition;
+            changeDirection = false;
+
+
+            if (gameObject.Transformer.Position.X < otherPosition.X)
+            {
+                patrolPointRight = true;
+                direction = (Direction.Right);
+            }
+            else
+            {
+                patrolPointRight = false;
+                direction = (Direction.Left);
+            }
         }
 
         public void LoadContent(ContentManager content)
@@ -27,7 +49,6 @@ namespace MummyDispair
             this.animator = (Animator)gameObject.GetComponent("Animator");
 
             CreateAnimations();
-            animator.PlayAnimation("WalkRight");
 
             strategy = new Walk(animator, gameObject.Transformer);
             strategy.Update(direction, Vector2.Zero);
@@ -35,7 +56,54 @@ namespace MummyDispair
 
         public void Update()
         {
+            if (patrolPointRight)
+            {
+                if (gameObject.Transformer.Position.X < firstPosition.X ||
+                    gameObject.Transformer.Position.X > otherPosition.X)
+                {
+                    changeDirection = true;
+                }
+            }
+            else 
+            {
+                if (gameObject.Transformer.Position.X > firstPosition.X ||
+                    gameObject.Transformer.Position.X < otherPosition.X)
+                {
+                    changeDirection = true;
+                }
+            }
+
+            if (changeDirection)
+            {
+                if (direction == Direction.Right)
+                {
+                    direction = Direction.Left;
+                }
+                else
+                {
+                    direction = Direction.Right;
+                }
+                changeDirection = false;
+            }
+
+            Vector2 translation = Vector2.Zero;
+
+            if (direction == Direction.Right)
+            {
+                translation += new Vector2(1, 0);
+            }
+            else
+            {
+                translation += new Vector2(-1, 0);
+            }
+
+            translation = translation * GameWorld.Instance.DeltaTime * speed;
             
+            if (!(strategy is Walk))
+            {
+                strategy = new Walk(animator, gameObject.Transformer);
+            }
+            strategy.Update(direction, translation);
         }
 
         private void CreateAnimations()

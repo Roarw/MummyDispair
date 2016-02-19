@@ -33,6 +33,7 @@ namespace MummyDispair
                 }
                 else
                 {
+                    player.IsAlive = false;
                     rect = new Texture2D(GameWorld.Instance.GraphicsDevice, 1, 20);
                     data = new Color[20];
                 }

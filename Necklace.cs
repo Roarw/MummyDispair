@@ -33,9 +33,14 @@ namespace MummyDispair
 
         public void OnCollisionEnter(Collider other)
         {
-            doorSoundInstance.Play();
-            gameObject.IsAlive = false;
-            GameWorld.Instance.NextLevel(gameObject);
+            if (other.GetGameObject.TypeComponent is Player)
+            {
+                Player player = (Player)other.GetGameObject.TypeComponent;
+                player.GotNecklace = true;
+                doorSoundInstance.Play();
+                gameObject.IsAlive = false;
+                GameWorld.Instance.NextLevel(gameObject);
+            }
         }
 
         private void CreateAnimations()

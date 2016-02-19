@@ -8,6 +8,8 @@ namespace MummyDispair
     /// </summary>
     public static class Program
     {
+        public static bool ShouldRestart;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

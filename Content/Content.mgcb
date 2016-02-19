@@ -49,3 +49,9 @@
 /processorParam:Quality=Best
 /build:Sound/doors.wav
 
+#begin WinScreen.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:WinScreen.spritefont
+

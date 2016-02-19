@@ -25,6 +25,8 @@ namespace MummyDispair
         
         private SoundEffectInstance musicEngine;
 
+        private SpriteFont font;
+
         /// <summary>
         /// Credits: http:// www.alecjacobsen.com/weblog/?p=539.
         /// This menu has been made with inspiration from the link above.
@@ -66,6 +68,8 @@ namespace MummyDispair
 
         private LevelCreator levelCreator;
         private bool nextLevel;
+        private bool youWon;
+        private bool youDied;
 
         private float deltaTime;
 
@@ -99,6 +103,7 @@ namespace MummyDispair
 
             gameStarted = false;
             nextLevel = false;
+            youWon = false;
         }
 
         /// <summary>
@@ -109,10 +114,12 @@ namespace MummyDispair
         /// </summary>
         protected override void Initialize()
         {
+            font = Content.Load<SpriteFont>("WinScreen");
+
             SoundEffect effect = Content.Load<SoundEffect>("Sound/PharaohMusic");
             musicEngine = effect.CreateInstance();
             musicEngine.IsLooped = true;
-            musicEngine.Volume = 0.0f; /*Set to 0.4f before release*/
+            musicEngine.Volume = 0.4f;
             musicEngine.Play();
 
             if (!gameStarted)
@@ -203,17 +210,17 @@ namespace MummyDispair
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (!gameStarted)
-            {
-                Window.Title = "Mummy Despair - Main Menu";
-            }
-            else
-            {
-                Window.Title = "Mummy Despair - Love is in the air!";
-            }
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            {
+                gameStarted = false;
+                nextLevel = false;
+                youWon = false;
+
+                Objects.Clear();
+                Colliders.Clear();
+                LoadContent();
+            }
+                
 
             // TODO: Add your update logic here
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -255,6 +262,11 @@ namespace MummyDispair
                     }
                     else
                     {
+                        if (Objects[i].TypeComponent is Player)
+                        {
+                            youDied = true;
+                        }
+
                         if (Colliders.Contains((Collider)Objects[i].GetComponent("Collider")))
                         {
                             Colliders.Remove((Collider)Objects[i].GetComponent("Collider"));
@@ -283,6 +295,18 @@ namespace MummyDispair
             else
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.CameraMatrix);
+            }
+
+            //Should only be run once.
+            if (youWon)
+            {
+                spriteBatch.DrawString(font, "YOU WON!", 
+                    new Vector2(-camera.CameraMatrix.Translation.X + 50, -camera.CameraMatrix.Translation.Y + 150), Color.DarkRed);
+            }
+            else if (youDied)
+            {
+                spriteBatch.DrawString(font, " YOU DIED\nPRESS ESC",
+                    new Vector2(-camera.CameraMatrix.Translation.X + 5, -camera.CameraMatrix.Translation.Y + 50), Color.DarkRed);
             }
 
             if (!gameStarted)
@@ -322,10 +346,28 @@ namespace MummyDispair
         {
             if (gameObject.TypeComponent is Necklace)
             {
-                System.Diagnostics.Debug.WriteLine("asdasda");
                 nextLevel = true;
             }
         }
+
+        public void YouWon(GameObject gameObject)
+        {
+            if (gameObject.TypeComponent is Player)
+            {
+                youWon = true;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Below is the methods used for the menu.
