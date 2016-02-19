@@ -215,6 +215,7 @@ namespace MummyDispair
                 gameStarted = false;
                 nextLevel = false;
                 youWon = false;
+                youDied = false;
 
                 Objects.Clear();
                 Colliders.Clear();
